@@ -57,10 +57,10 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({ onSubmit, isLoadi
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-lcm-white p-6 rounded-lg shadow-md">
       <div className="flex items-center mb-6">
-        <BrainCircuit className="h-6 w-6 text-vbf-purple mr-2" />
-        <h2 className="text-2xl font-bold text-vbf-blue">Generate Your Ideal Client Profile</h2>
+        <BrainCircuit className="h-6 w-6 text-lcm-red mr-2" />
+        <h2 className="text-2xl font-bold text-lcm-black">Generate Your Ideal Client Profile</h2>
       </div>
       
       <Form {...form}>
@@ -196,7 +196,7 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({ onSubmit, isLoadi
           <div className="flex justify-end">
             <Button 
               type="submit" 
-              className="bg-vbf-purple hover:bg-vbf-purple-light"
+              className="bg-lcm-red hover:bg-lcm-red/80 text-lcm-white"
               disabled={isLoading}
             >
               {isLoading ? "Generating..." : "Generate Client Profile"}

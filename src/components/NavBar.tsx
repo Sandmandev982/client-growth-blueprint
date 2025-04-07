@@ -13,18 +13,18 @@ const NavBar = () => {
   };
 
   return (
-    <div className="bg-vbf-blue py-4 px-6 shadow-md w-full">
+    <div className="bg-lcm-black py-4 px-6 shadow-md w-full">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center mb-4 md:mb-0">
-          <BarChart3 className="text-white h-6 w-6 mr-2" />
-          <h1 className="text-white text-xl font-bold">Client Growth Blueprint</h1>
+          <BarChart3 className="text-lcm-white h-6 w-6 mr-2" />
+          <h1 className="text-lcm-white text-xl font-bold">Client Growth Blueprint</h1>
         </div>
         
         <div className="flex space-x-2">
           <Button 
             variant={isActive("/") ? "secondary" : "ghost"} 
             onClick={() => navigate("/")}
-            className="text-white hover:text-white hover:bg-vbf-purple/20"
+            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
           >
             <Users className="h-4 w-4 mr-2" />
             Profile
@@ -33,7 +33,7 @@ const NavBar = () => {
           <Button 
             variant={isActive("/jobs") ? "secondary" : "ghost"} 
             onClick={() => navigate("/jobs")}
-            className="text-white hover:text-white hover:bg-vbf-purple/20"
+            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
           >
             <MessageSquare className="h-4 w-4 mr-2" />
             Messages
@@ -42,7 +42,7 @@ const NavBar = () => {
           <Button 
             variant={isActive("/export") ? "secondary" : "ghost"} 
             onClick={() => navigate("/export")}
-            className="text-white hover:text-white hover:bg-vbf-purple/20"
+            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
           >
             <FileText className="h-4 w-4 mr-2" />
             Export

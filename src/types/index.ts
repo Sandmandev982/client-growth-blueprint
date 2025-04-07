@@ -1,4 +1,3 @@
-
 export type IdealClientProfile = {
   demographics: {
     age: string;
@@ -32,7 +31,7 @@ export type MillionDollarMessage = {
   whyItWorks: string;
 };
 
-export type FormData = {
+export interface FormData {
   niche: string;
   audience: string;
   brandName: string;
@@ -40,7 +39,7 @@ export type FormData = {
   style: string;
   tone: string;
   gdprConsent: boolean;
-};
+}
 
 export type GeneratedOutput = {
   idealClientProfile: IdealClientProfile;

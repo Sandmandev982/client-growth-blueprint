@@ -1,105 +1,100 @@
 
-import { FormData, GeneratedOutput } from "../types";
+import { FormData, GeneratedOutput, IdealClientProfile, JobsToBeDone, MillionDollarMessage } from "../types";
+import { supabase } from "../integrations/supabase/client";
 
-// This would normally use the OpenAI API directly
-// For now, we'll simulate responses for demonstration
+// Currently using mock data until we connect to the actual AI service
 export const generateClientProfile = async (formData: FormData): Promise<GeneratedOutput> => {
-  console.log("Generating content for:", formData);
+  console.log("Generating client profile with data:", formData);
   
-  // In a production app, this would make an actual API call to OpenAI
-  // For this demo, we'll return mock data based on the form inputs
+  // In a real implementation, this would be an API call to an AI service
+  // For now, we'll return mock data
   
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  // Simulate API latency
+  await new Promise((resolve) => setTimeout(resolve, 1500));
   
-  const idealClientProfile = {
+  // Mock data response
+  const idealClientProfile: IdealClientProfile = {
     demographics: {
-      age: formData.niche.includes("tech") ? "25-40" : "30-55",
-      gender: "All genders",
-      location: "Urban and suburban areas",
+      age: "35-50",
+      gender: "Mixed (60% Female, 40% Male)",
+      location: "Urban areas, primarily in North America",
       education: "Bachelor's degree or higher",
-      income: formData.niche.includes("luxury") ? "$100,000+" : "$60,000+",
-      occupation: "Professionals, entrepreneurs, and executives",
+      income: "$75,000 - $150,000 annually",
+      occupation: "Entrepreneurs, business owners, or senior managers"
     },
     psychographics: {
-      values: [
-        "Growth and learning",
-        "Excellence",
-        "Innovation",
-        "Work-life balance",
-        "Impact and purpose"
-      ],
-      interests: [
-        "Personal development",
-        "Technology trends",
-        "Business growth",
-        "Industry innovation",
-        "Wellness and mindfulness"
-      ],
-      goals: [
-        "Professional advancement",
-        "Business growth",
-        "Work-life harmony",
-        "Greater impact in their field",
-        "Financial freedom"
-      ],
-      challenges: [
-        "Information overload",
-        "Time management",
-        "Decision fatigue",
-        "Finding effective solutions",
-        "Balancing quality and efficiency"
-      ],
-      motivations: [
-        "Recognition and success",
-        "Making a difference",
-        "Security and stability",
-        "Personal fulfillment",
-        "Freedom and flexibility"
-      ]
+      values: ["Growth", "Excellence", "Innovation", "Impact", "Freedom"],
+      interests: ["Business development", "Personal growth", "Technology", "Networking", "Industry trends"],
+      goals: ["Scale their business", "Increase their market reach", "Improve work-life balance", "Be recognized as a leader in their field"],
+      challenges: ["Limited time", "Market saturation", "Finding quality talent", "Standing out from competitors"],
+      motivations: ["Financial freedom", "Making a difference", "Recognition", "Building a legacy"]
     }
   };
   
-  const jobsToBeDone = {
+  const jobsToBeDone: JobsToBeDone = {
     struggles: [
-      `Finding reliable ${formData.productOrService} solutions that deliver real results`,
-      `Identifying ${formData.productOrService} providers that understand their specific needs`,
-      `Balancing quality and cost when selecting ${formData.productOrService}`
+      "Difficulty attracting high-quality clients consistently",
+      "Unclear messaging that fails to differentiate from competitors",
+      "Ineffective marketing strategies that waste time and money"
     ],
     jobs: [
-      `Implement a ${formData.productOrService} solution that delivers measurable ROI`,
-      `Find a trustworthy provider for ${formData.productOrService} that understands their industry`,
-      `Integrate ${formData.productOrService} seamlessly into existing operations`
+      "Create a clear, compelling brand message that resonates with ideal clients",
+      "Develop a systematic approach to generate qualified leads",
+      "Establish themselves as the go-to authority in their niche"
     ],
-    marketingAngle: `${formData.brandName} helps ${formData.audience} achieve better results with less effort through our innovative ${formData.productOrService} approach.`
+    marketingAngle: "Position yourself as the expert who helps ambitious entrepreneurs attract premium clients through strategic messaging, without resorting to pushy tactics or constant content creation."
   };
   
-  const millionDollarMessages = [
+  const millionDollarMessages: MillionDollarMessage[] = [
     {
-      headline: `The ${formData.audience} Success Blueprint`,
-      problem: `Most ${formData.audience} struggle to get consistent results from their ${formData.niche} efforts, leading to wasted time and resources.`,
-      solution: `${formData.brandName}'s ${formData.productOrService} provides a proven framework that delivers predictable outcomes without the guesswork.`,
-      differentiation: `Unlike generic solutions, our approach is specifically designed for ${formData.audience} in the ${formData.niche} space, with 97% of clients seeing results within 30 days.`,
-      cta: `Book your strategy call today to discover how we can transform your ${formData.niche} results in just weeks.`,
-      whyItWorks: `This message addresses the pain point of inconsistent results, offers a specific solution tailored to the audience, differentiates with industry specificity and data points, and provides a clear next step.`
+      headline: "From Invisible to In-Demand: How Established Experts Can Attract Premium Clients",
+      problem: "You've built valuable expertise and deliver excellent results, but you're still struggling to attract the right clients consistently. Generic marketing advice doesn't work for your specialized business, leaving you frustrated and your potential untapped.",
+      solution: `${formData.brandName}'s ${formData.productOrService} helps you develop a crystal-clear message that resonates with your ideal clients and positions you as the obvious choice in your market.`,
+      differentiation: `Unlike general marketing strategies, our approach is specifically designed for ${formData.niche} professionals who want to attract serious, committed clients without compromising their integrity or following trends that don't fit their business.`,
+      cta: `Book a Strategy Call: Discover how ${formData.brandName} can help you transform your client acquisition process and build a sustainable pipeline of ideal clients.`,
+      whyItWorks: "This message directly addresses the frustration of having expertise but lacking visibility, while emphasizing both the emotional (recognition, confidence) and practical (more clients, better income) benefits of solving this problem."
     },
     {
-      headline: `Revolutionize Your ${formData.niche} Approach`,
-      problem: `In today's competitive landscape, ${formData.audience} can no longer afford the traditional ${formData.niche} methods that drain resources and deliver unpredictable outcomes.`,
-      solution: `${formData.brandName} offers a cutting-edge ${formData.productOrService} that streamlines your process while maximizing impact.`,
-      differentiation: `Our proprietary methodology has helped over 200 ${formData.audience} increase their effectiveness by an average of 43% within the first quarter.`,
-      cta: `Download our free case study to see exactly how we transformed results for a ${formData.audience} just like you.`,
-      whyItWorks: `This message creates urgency around the changing landscape, presents a modern solution, backs claims with specific results, and offers a low-risk first step for engagement.`
+      headline: "Stop Chasing Clients: Become the Go-To Authority in Your Field",
+      problem: "Despite your expertise and track record of results, you find yourself constantly hunting for new business opportunities. You're tired of competing on price and explaining why your services are worth the investment.",
+      solution: `${formData.brandName}'s proven ${formData.productOrService} transforms how potential clients see you, creating a positioning strategy that naturally attracts the right clients to you.`,
+      differentiation: `We don't offer generic marketing tactics. Our approach is built specifically for ${formData.audience} who want to build a reputation that does their marketing for them, creating demand instead of chasing it.`,
+      cta: `Download Our Free Guide: "The Authority Advantage" and discover the first steps to positioning yourself as the clear choice in your market.`,
+      whyItWorks: "This message taps into the desire for recognition and respect while addressing the frustration of having to constantly prove your value. It promises a fundamental shift from pursuing clients to attracting them naturally."
     },
     {
-      headline: `The ${formData.audience}'s Ultimate ${formData.niche} Advantage`,
-      problem: `Many ${formData.audience} feel overwhelmed by conflicting advice and complex strategies in the ${formData.niche} space, leaving them paralyzed by indecision.`,
-      solution: `${formData.brandName} cuts through the noise with our simplified yet powerful ${formData.productOrService} designed specifically for busy professionals who need results, not more complexity.`,
-      differentiation: `We're the only provider that combines deep ${formData.niche} expertise with a satisfaction guarantee - if you don't see improvement in 60 days, you don't pay.`,
-      cta: `Join our upcoming webinar to discover the 3 hidden factors blocking your ${formData.niche} success and how to overcome them.`,
-      whyItWorks: `This message resonates with overwhelmed professionals, offers simplicity as a benefit, provides risk reversal with a guarantee, and gives an educational opportunity as the entry point.`
+      headline: "The Client Attraction Blueprint: Build a Business That Generates Demand",
+      problem: "You've mastered your craft but not the art of attracting clients. Your current marketing feels inconsistent and your message gets lost in the noise, leaving potential clients unclear about why they should choose you.",
+      solution: `${formData.brandName}'s ${formData.productOrService} provides a clear framework to articulate your unique value and create messaging that resonates deeply with your ideal clients.`,
+      differentiation: `While others offer tactical marketing tips, we focus on strategic positioning and message clarity that works specifically for ${formData.audience}. Our approach creates a foundation that makes all your marketing more effective.`,
+      cta: `Join Our Upcoming Webinar: "From Expertise to Influence" and learn the three key shifts that will transform how prospects see your business.`,
+      whyItWorks: "This message focuses on the fundamental problems of unclear positioning and inconsistent client attraction, promising a systematic solution rather than just tactics. It appeals to the desire for a sustainable, reliable approach to growth."
     }
   ];
+  
+  // Save to Supabase
+  try {
+    const { data, error } = await supabase
+      .from('generated_profiles')
+      .insert([
+        { 
+          user_id: 'anonymous', // In a real app, use authenticated user's ID
+          form_data: formData,
+          ideal_client_profile: idealClientProfile,
+          jobs_to_be_done: jobsToBeDone,
+          million_dollar_messages: millionDollarMessages,
+          created_at: new Date().toISOString()
+        }
+      ]);
+    
+    if (error) {
+      console.error('Error saving to Supabase:', error);
+    } else {
+      console.log('Successfully saved to Supabase:', data);
+    }
+  } catch (err) {
+    console.error('Exception when saving to Supabase:', err);
+  }
   
   return {
     idealClientProfile,

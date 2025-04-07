@@ -63,14 +63,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				vbf: {
-					blue: {
-						DEFAULT: '#2D3748',
-						light: '#4A5568',
-					},
-					purple: {
-						DEFAULT: '#6B46C1',
-						light: '#805AD5',
+				// Line Cross Marketing color palette
+				lcm: {
+					black: '#000000',
+					red: '#ff3333',
+					white: '#ffffff',
+					gray: {
+						1: '#5f5f5f',
+						2: '#7d8693',
+						3: '#aaaaa',
+						4: '#ccccca'
 					}
 				}
 			},
@@ -103,6 +105,8 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
+				title: ['Georgia', 'serif'],
+				heading: ['Impact', 'sans-serif'],
 			},
 		}
 	},
