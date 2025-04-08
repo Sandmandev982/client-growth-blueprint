@@ -47,8 +47,8 @@ const GeneratedClientProfile: React.FC<GeneratedClientProfileProps> = ({
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            <IdealClientProfileCard idealClientProfile={generatedOutput.idealClientProfile} />
-            <JobsToBeDoneCard jobsToBeDone={generatedOutput.jobsToBeDone} />
+            <IdealClientProfileCard profile={generatedOutput.idealClientProfile} />
+            <JobsToBeDoneCard data={generatedOutput.jobsToBeDone} />
           </div>
 
           <Separator />
