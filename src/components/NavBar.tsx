@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BarChart3, Users, MessageSquare, FileText } from "lucide-react";
+import { BarChart3, Users, FileText } from "lucide-react";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -22,27 +22,24 @@ const NavBar = () => {
         
         <div className="flex space-x-2">
           <Button 
-            variant={isActive("/") ? "secondary" : "ghost"} 
+            variant={isActive("/") ? "ghost" : "default"} 
             onClick={() => navigate("/")}
-            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
+            className={isActive("/") 
+              ? "text-lcm-red bg-lcm-gray-1 hover:bg-lcm-gray-1 hover:text-lcm-red" 
+              : "bg-lcm-red text-lcm-white hover:bg-lcm-red/80"
+            }
           >
             <Users className="h-4 w-4 mr-2" />
             Profile
           </Button>
           
           <Button 
-            variant={isActive("/jobs") ? "secondary" : "ghost"} 
-            onClick={() => navigate("/jobs")}
-            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
-          >
-            <MessageSquare className="h-4 w-4 mr-2" />
-            Messages
-          </Button>
-          
-          <Button 
-            variant={isActive("/export") ? "secondary" : "ghost"} 
+            variant={isActive("/export") ? "ghost" : "default"} 
             onClick={() => navigate("/export")}
-            className="text-lcm-white hover:text-lcm-white hover:bg-lcm-red/20"
+            className={isActive("/export") 
+              ? "text-lcm-red bg-lcm-gray-1 hover:bg-lcm-gray-1 hover:text-lcm-red" 
+              : "bg-lcm-red text-lcm-white hover:bg-lcm-red/80"
+            }
           >
             <FileText className="h-4 w-4 mr-2" />
             Export

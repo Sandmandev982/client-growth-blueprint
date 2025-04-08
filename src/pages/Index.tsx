@@ -8,7 +8,7 @@ import NavBar from "../components/NavBar";
 import { FormData } from "../types";
 import { generateClientProfile } from "../services/aiService";
 import { useData } from "../context/DataContext";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { FileDown, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -30,8 +30,8 @@ const Index = () => {
     }
   };
 
-  const goToMessages = () => {
-    navigate("/jobs");
+  const goToExport = () => {
+    navigate("/export");
   };
 
   return (
@@ -41,7 +41,7 @@ const Index = () => {
         <div className="grid grid-cols-1 gap-8">
           {!isDataGenerated && (
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-vbf-blue mb-2">Client Growth Blueprint</h1>
+              <h1 className="text-3xl font-bold text-lcm-black mb-2">Client Growth Blueprint</h1>
               <p className="text-gray-600 max-w-3xl">
                 Generate your ideal client profile, identify key struggles and jobs to be done, and create powerful marketing messages that resonate with your audience.
               </p>
@@ -53,14 +53,14 @@ const Index = () => {
           ) : (
             <div className="space-y-8">
               <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-vbf-blue">
+                <h2 className="text-2xl font-bold text-lcm-black">
                   {formData?.brandName}'s Client Growth Blueprint
                 </h2>
                 <Button
-                  onClick={goToMessages}
-                  className="bg-vbf-purple hover:bg-vbf-purple-light"
+                  onClick={goToExport}
+                  className="bg-lcm-red hover:bg-lcm-red/80 text-lcm-white"
                 >
-                  View Messages <ArrowRight className="ml-2 h-4 w-4" />
+                  Export Results <FileDown className="ml-2 h-4 w-4" />
                 </Button>
               </div>
               
@@ -73,7 +73,7 @@ const Index = () => {
         {isLoading && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
-              <Loader2 className="h-8 w-8 text-vbf-purple animate-spin mr-4" />
+              <Loader2 className="h-8 w-8 text-lcm-red animate-spin mr-4" />
               <div>
                 <h3 className="font-semibold text-lg">Generating your blueprint...</h3>
                 <p className="text-gray-500">This may take a moment.</p>

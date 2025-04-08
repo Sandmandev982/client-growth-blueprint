@@ -1,104 +1,131 @@
 
-import { FormData, GeneratedOutput, IdealClientProfile, JobsToBeDone, MillionDollarMessage } from "../types";
-import { supabase } from "../integrations/supabase/client";
+import { FormData, GeneratedOutput } from "../types";
+import { supabaseClient } from "../integrations/supabase/client";
 
-// Currently using mock data until we connect to the actual AI service
+// Simulated AI response generation
 export const generateClientProfile = async (formData: FormData): Promise<GeneratedOutput> => {
-  console.log("Generating client profile with data:", formData);
+  console.info("Generating client profile with data:", formData);
+
+  // In a real application, this would call your OpenAI API
+  // For now, we're simulating the response
   
-  // In a real implementation, this would be an API call to an AI service
-  // For now, we'll return mock data
+  // Wait for 2 seconds to simulate API call
+  await new Promise(resolve => setTimeout(resolve, 2000));
   
-  // Simulate API latency
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  
-  // Mock data response
-  const idealClientProfile: IdealClientProfile = {
-    demographics: {
-      age: "35-50",
-      gender: "Mixed (60% Female, 40% Male)",
-      location: "Urban areas, primarily in North America",
-      education: "Bachelor's degree or higher",
-      income: "$75,000 - $150,000 annually",
-      occupation: "Entrepreneurs, business owners, or senior managers"
+  const output: GeneratedOutput = {
+    idealClientProfile: {
+      demographics: {
+        age: "35-55 years old",
+        gender: "Male and Female",
+        location: "Urban and suburban areas",
+        education: "Bachelor's degree or higher",
+        income: "$75,000 - $150,000 annually",
+        occupation: "Business owners, executives, professionals"
+      },
+      psychographics: {
+        values: [
+          "Growth and development",
+          "Professional excellence",
+          "Work-life balance",
+          "Return on investment",
+          "Efficiency"
+        ],
+        interests: [
+          "Business growth",
+          "Digital marketing trends",
+          "Content creation",
+          "Industry innovations",
+          "Professional networking"
+        ],
+        goals: [
+          "Establishing stronger market presence",
+          "Increasing qualified leads",
+          "Converting content to revenue",
+          "Building brand authority",
+          "Streamlining marketing operations"
+        ],
+        challenges: [
+          "Creating consistent, high-quality content",
+          "Standing out in competitive markets",
+          "Finding time for marketing activities",
+          "Measuring content ROI accurately",
+          "Maintaining brand consistency"
+        ],
+        motivations: [
+          "Desire for business growth",
+          "Recognition as industry leader",
+          "Efficiency in marketing efforts",
+          "Better customer engagement",
+          "Increased revenue through content"
+        ]
+      }
     },
-    psychographics: {
-      values: ["Growth", "Excellence", "Innovation", "Impact", "Freedom"],
-      interests: ["Business development", "Personal growth", "Technology", "Networking", "Industry trends"],
-      goals: ["Scale their business", "Increase their market reach", "Improve work-life balance", "Be recognized as a leader in their field"],
-      challenges: ["Limited time", "Market saturation", "Finding quality talent", "Standing out from competitors"],
-      motivations: ["Financial freedom", "Making a difference", "Recognition", "Building a legacy"]
-    }
+    jobsToBeDone: {
+      struggles: [
+        "Creating professional-quality video content without specialized skills",
+        "Maintaining consistent brand messaging across all content platforms",
+        "Converting marketing ideas into actionable, structured plans"
+      ],
+      jobs: [
+        "Establish efficient workflows for content creation",
+        "Develop brand-aligned web experiences that convert visitors",
+        "Build systems to maintain content quality without micromanagement"
+      ],
+      marketingAngle: `${formData.brandName} helps ${formData.audience} transform marketing concepts into compelling content and structured workflows, eliminating the need to master complex technical skills while ensuring brand consistency across all platforms.`
+    },
+    millionDollarMessages: [
+      {
+        headline: "The Content Creation Blueprint",
+        problem: `Are you tired of struggling to create professional content that represents your brand? Many ${formData.audience} waste time and money trying to master complex editing software or hire unreliable freelancers.`,
+        solution: `${formData.brandName}'s ${formData.productOrService} provides a streamlined system to transform your marketing ideas into professional content without the technical headache.`,
+        differentiation: `Unlike generic templates or expensive agencies, we specialize exclusively in creating custom content frameworks tailored to your specific industry needs and brand voice.`,
+        cta: `Book your strategy session today to see how our proven system can help you produce consistent, high-quality content in half the time.`,
+        whyItWorks: "This message works by addressing the pain of technical complexity while positioning your service as the expert-guided middle path between DIY struggles and expensive outsourcing."
+      },
+      {
+        headline: "From Marketing Chaos to Content Clarity",
+        problem: `${formData.audience} often have great marketing ideas but lack the structure and technical skills to implement them effectively, resulting in inconsistent results and wasted resources.`,
+        solution: `Our ${formData.productOrService} provides you with both the technical execution and strategic framework to turn your marketing concepts into compelling, conversion-focused content.`,
+        differentiation: `We don't just deliver content—we implement sustainable systems that let you maintain brand consistency and quality across all platforms without becoming a technical expert yourself.`,
+        cta: `Schedule your content assessment to discover how our systems can transform your marketing ideas into powerful content that drives business growth.`,
+        whyItWorks: "This message focuses on the transformation from chaos to clarity, emphasizing both the immediate deliverable (content) and the long-term value (systems and frameworks)."
+      },
+      {
+        headline: "Expert Content Without The Learning Curve",
+        problem: `For busy ${formData.audience}, the gap between marketing vision and technical execution creates a constant bottleneck that prevents consistent content production and brand growth.`,
+        solution: `${formData.brandName} bridges this gap by handling the technical complexities while teaching you our proven frameworks for developing content that resonates with your target audience.`,
+        differentiation: `Our unique approach combines done-for-you technical execution with strategic guidance, ensuring you get immediate results while building sustainable content systems for long-term growth.`,
+        cta: `Get started with our Content Accelerator package and receive your first professionally produced content within two weeks, plus a customized content playbook for your team.`,
+        whyItWorks: "This message highlights the dual benefit of immediate relief (done-for-you service) and long-term value (learning frameworks), appealing to both urgent needs and strategic thinking."
+      }
+    ]
   };
-  
-  const jobsToBeDone: JobsToBeDone = {
-    struggles: [
-      "Difficulty attracting high-quality clients consistently",
-      "Unclear messaging that fails to differentiate from competitors",
-      "Ineffective marketing strategies that waste time and money"
-    ],
-    jobs: [
-      "Create a clear, compelling brand message that resonates with ideal clients",
-      "Develop a systematic approach to generate qualified leads",
-      "Establish themselves as the go-to authority in their niche"
-    ],
-    marketingAngle: "Position yourself as the expert who helps ambitious entrepreneurs attract premium clients through strategic messaging, without resorting to pushy tactics or constant content creation."
-  };
-  
-  const millionDollarMessages: MillionDollarMessage[] = [
-    {
-      headline: "From Invisible to In-Demand: How Established Experts Can Attract Premium Clients",
-      problem: "You've built valuable expertise and deliver excellent results, but you're still struggling to attract the right clients consistently. Generic marketing advice doesn't work for your specialized business, leaving you frustrated and your potential untapped.",
-      solution: `${formData.brandName}'s ${formData.productOrService} helps you develop a crystal-clear message that resonates with your ideal clients and positions you as the obvious choice in your market.`,
-      differentiation: `Unlike general marketing strategies, our approach is specifically designed for ${formData.niche} professionals who want to attract serious, committed clients without compromising their integrity or following trends that don't fit their business.`,
-      cta: `Book a Strategy Call: Discover how ${formData.brandName} can help you transform your client acquisition process and build a sustainable pipeline of ideal clients.`,
-      whyItWorks: "This message directly addresses the frustration of having expertise but lacking visibility, while emphasizing both the emotional (recognition, confidence) and practical (more clients, better income) benefits of solving this problem."
-    },
-    {
-      headline: "Stop Chasing Clients: Become the Go-To Authority in Your Field",
-      problem: "Despite your expertise and track record of results, you find yourself constantly hunting for new business opportunities. You're tired of competing on price and explaining why your services are worth the investment.",
-      solution: `${formData.brandName}'s proven ${formData.productOrService} transforms how potential clients see you, creating a positioning strategy that naturally attracts the right clients to you.`,
-      differentiation: `We don't offer generic marketing tactics. Our approach is built specifically for ${formData.audience} who want to build a reputation that does their marketing for them, creating demand instead of chasing it.`,
-      cta: `Download Our Free Guide: "The Authority Advantage" and discover the first steps to positioning yourself as the clear choice in your market.`,
-      whyItWorks: "This message taps into the desire for recognition and respect while addressing the frustration of having to constantly prove your value. It promises a fundamental shift from pursuing clients to attracting them naturally."
-    },
-    {
-      headline: "The Client Attraction Blueprint: Build a Business That Generates Demand",
-      problem: "You've mastered your craft but not the art of attracting clients. Your current marketing feels inconsistent and your message gets lost in the noise, leaving potential clients unclear about why they should choose you.",
-      solution: `${formData.brandName}'s ${formData.productOrService} provides a clear framework to articulate your unique value and create messaging that resonates deeply with your ideal clients.`,
-      differentiation: `While others offer tactical marketing tips, we focus on strategic positioning and message clarity that works specifically for ${formData.audience}. Our approach creates a foundation that makes all your marketing more effective.`,
-      cta: `Join Our Upcoming Webinar: "From Expertise to Influence" and learn the three key shifts that will transform how prospects see your business.`,
-      whyItWorks: "This message focuses on the fundamental problems of unclear positioning and inconsistent client attraction, promising a systematic solution rather than just tactics. It appeals to the desire for a sustainable, reliable approach to growth."
-    }
-  ];
-  
-  // Save to Supabase
+
   try {
-    const { data, error } = await supabase
+    // Save to Supabase
+    // This would typically save to a 'generated_profiles' table
+    // For now this is commented out as we don't have the table structure yet
+    /*
+    const { error } = await supabaseClient
       .from('generated_profiles')
       .insert([
-        { 
-          user_id: 'anonymous', // In a real app, use authenticated user's ID
+        {
+          user_id: 'anonymous', // In a real app, this would be the actual user ID
           form_data: formData,
-          ideal_client_profile: idealClientProfile,
-          jobs_to_be_done: jobsToBeDone,
-          million_dollar_messages: millionDollarMessages,
+          ideal_client_profile: output.idealClientProfile,
+          jobs_to_be_done: output.jobsToBeDone,
+          million_dollar_messages: output.millionDollarMessages,
           created_at: new Date().toISOString()
         }
       ]);
-    
+      
     if (error) {
-      console.error('Error saving to Supabase:', error);
-    } else {
-      console.log('Successfully saved to Supabase:', data);
+      console.error("Error saving to Supabase:", error);
     }
-  } catch (err) {
-    console.error('Exception when saving to Supabase:', err);
+    */
+  } catch (error) {
+    console.error("Error saving generated profile:", error);
   }
-  
-  return {
-    idealClientProfile,
-    jobsToBeDone,
-    millionDollarMessages
-  };
+
+  return output;
 };

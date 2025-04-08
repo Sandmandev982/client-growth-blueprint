@@ -1,9 +1,7 @@
 
 import React from "react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { 
   Form,
   FormControl,
@@ -17,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "../types";
-import { toast } from "@/components/ui/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BrainCircuit } from "lucide-react";
 
@@ -53,7 +50,18 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({ onSubmit, isLoadi
   });
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    onSubmit(values);
+    // Ensure all fields are defined before submitting
+    const formData: FormData = {
+      niche: values.niche,
+      audience: values.audience,
+      brandName: values.brandName,
+      productOrService: values.productOrService,
+      style: values.style,
+      tone: values.tone,
+      gdprConsent: values.gdprConsent,
+    };
+    
+    onSubmit(formData);
   };
 
   return (
