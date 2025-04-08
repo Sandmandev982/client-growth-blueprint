@@ -98,35 +98,45 @@
   }
 
   h1, .title {
-    @apply font-title text-2xl font-bold italic;
+    @apply font-title text-2xl font-bold italic tracking-wide mb-4;
   }
 
   h2, .subtitle {
-    @apply text-xl font-normal;
+    @apply text-xl font-normal tracking-normal mb-3;
   }
 
   h3, .heading {
-    @apply font-heading text-xl font-bold;
+    @apply font-heading text-xl font-semibold tracking-normal mb-3;
+    letter-spacing: 0.01em;
   }
 
   h4, .subheading {
-    @apply text-lg font-medium;
+    @apply text-lg font-medium mb-2;
   }
 
   h5, .section-header {
-    @apply text-base font-medium;
+    @apply text-base font-medium mb-2;
   }
 
   p, .body {
-    @apply text-base font-normal;
+    @apply text-base font-normal mb-3;
   }
 
   blockquote, .quote {
-    @apply text-base italic;
+    @apply text-base italic my-4 pl-4 border-l-4 border-lcm-gray-2;
   }
 
   figcaption, .caption {
-    @apply text-sm font-normal;
+    @apply text-sm font-normal text-lcm-gray-2;
+  }
+
+  .card-heading {
+    @apply text-lg font-medium mb-2 tracking-normal;
+  }
+
+  .section-title {
+    @apply text-xl font-medium mb-3 tracking-normal;
+    letter-spacing: 0.02em;
   }
 }
 
