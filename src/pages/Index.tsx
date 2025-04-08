@@ -2,18 +2,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ClientProfileForm from "../components/ClientProfileForm";
-import IdealClientProfileCard from "../components/IdealClientProfileCard";
-import JobsToBeDoneCard from "../components/JobsToBeDoneCard";
 import NavBar from "../components/NavBar";
 import { FormData } from "../types";
 import { generateClientProfile } from "../services/aiService";
 import { useData } from "../context/DataContext";
 import { FileDown, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import GeneratedClientProfile from "../components/GeneratedClientProfile";
+import BlueprintLoadingSkeleton from "../components/BlueprintLoadingSkeleton";
+import { toast } from "sonner";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { setFormData, setGeneratedOutput, generatedOutput, formData, isDataGenerated } = useData();
+  const [blueprintText, setBlueprintText] = useState("");
+  const { setFormData, setGeneratedOutput, generatedOutput, formData } = useData();
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
@@ -21,10 +23,13 @@ const Index = () => {
     setFormData(data);
     
     try {
-      const result = await generateClientProfile(data);
-      setGeneratedOutput(result);
+      const { output, blueprintText } = await generateClientProfile(data);
+      setGeneratedOutput(output);
+      setBlueprintText(blueprintText);
+      toast.success("Your Client Growth Blueprint has been generated!");
     } catch (error) {
       console.error("Error generating client profile:", error);
+      toast.error("Failed to generate client profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -33,6 +38,8 @@ const Index = () => {
   const goToExport = () => {
     navigate("/export");
   };
+
+  const isDataGenerated = !!generatedOutput && !!blueprintText;
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -64,20 +71,18 @@ const Index = () => {
                 </Button>
               </div>
               
-              <IdealClientProfileCard profile={generatedOutput!.idealClientProfile} />
-              <JobsToBeDoneCard data={generatedOutput!.jobsToBeDone} />
+              <GeneratedClientProfile 
+                generatedOutput={generatedOutput}
+                blueprintText={blueprintText}
+              />
             </div>
           )}
         </div>
         
         {isLoading && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
-              <Loader2 className="h-8 w-8 text-lcm-red animate-spin mr-4" />
-              <div>
-                <h3 className="font-semibold text-lg">Generating your blueprint...</h3>
-                <p className="text-gray-500">This may take a moment.</p>
-              </div>
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
+              <BlueprintLoadingSkeleton />
             </div>
           </div>
         )}

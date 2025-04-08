@@ -6,6 +6,8 @@ import type { GeneratedOutput } from '@/types';
 import IdealClientProfileCard from './IdealClientProfileCard';
 import JobsToBeDoneCard from './JobsToBeDoneCard';
 import PDFEmailExport from './PDFEmailExport';
+import { Skeleton } from '@/components/ui/skeleton';
+import ReactMarkdown from 'react-markdown';
 
 interface GeneratedClientProfileProps {
   generatedOutput: GeneratedOutput | null;
@@ -53,8 +55,8 @@ const GeneratedClientProfile: React.FC<GeneratedClientProfileProps> = ({
 
           <Separator />
           
-          <div className="prose max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: blueprintText.replace(/\n/g, '<br/>') }} />
+          <div className="prose prose-slate max-w-none">
+            <ReactMarkdown>{blueprintText}</ReactMarkdown>
           </div>
         </CardContent>
       </Card>

@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
 import GDPRConsent from './GDPRConsent';
 import type { GeneratedOutput } from '@/types';
+import { saveLeadToDatabase } from '../services/aiService';
 
 interface PDFEmailExportProps {
   generatedOutput: GeneratedOutput | null;
@@ -43,22 +43,10 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
 
     try {
       // Save to Supabase
-      const { data, error } = await supabase
-        .from('leads')
-        .insert([
-          {
-            email: email,
-            ideal_client_profile: generatedOutput.idealClientProfile,
-            jobs_to_be_done: generatedOutput.jobsToBeDone,
-            transformation_outputs: { fullBlueprint: blueprintText }
-          }
-        ]);
-
-      if (error) {
-        throw error;
-      }
-
+      await saveLeadToDatabase(email, generatedOutput, blueprintText);
       toast.success('Success! Your Client Growth Blueprint has been sent to your email.');
+      
+      // Reset form
       setEmail('');
       setConsent(false);
     } catch (error) {
