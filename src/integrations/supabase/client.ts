@@ -1,11 +1,13 @@
 
 import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@/lib/env/public-env';
 
-// Replace these with your actual Supabase credentials
-export const supabaseUrl = 'https://lrruxjftdzvwlbjfuiew.supabase.co';
-export const supabaseKey = process.env.SUPABASE_ANON_KEY || 'public-anon-key';
+// Validation check - fails fast if credentials are missing
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error('Missing Supabase credentials - check public-env.ts');
+}
 
 // Create Supabase client
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default supabase;
