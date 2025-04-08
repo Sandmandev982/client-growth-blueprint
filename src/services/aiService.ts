@@ -1,10 +1,7 @@
 
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../integrations/supabase/client';
 import { OPENAI_API_KEY } from '../config/constants';
-import { supabaseUrl, supabaseKey } from '../integrations/supabase/client';
 import type { GeneratedOutput } from '../types';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Sample function to generate client profile using OpenAI
 export const generateClientProfile = async (data: any): Promise<GeneratedOutput> => {
@@ -15,26 +12,28 @@ export const generateClientProfile = async (data: any): Promise<GeneratedOutput>
     return {
       idealClientProfile: {
         demographics: {
-          ageRange: "30-50 years old",
+          age: "30-50 years old",
           gender: "All genders",
           location: "Urban and suburban areas",
           income: "Middle to upper-middle class",
           education: "College educated",
-          occupations: ["Entrepreneurs", "Business Owners", "Professionals"]
+          occupation: "Entrepreneurs, Business Owners, Professionals"
         },
         psychographics: {
           values: ["Growth", "Achievement", "Independence"],
           interests: ["Business Development", "Personal Growth", "Innovation"],
-          challenges: ["Scaling their business", "Work-life balance", "Standing out in the market"]
+          goals: ["Scale their business", "Create passive income streams", "Establish thought leadership"],
+          challenges: ["Scaling their business", "Work-life balance", "Standing out in the market"],
+          motivations: ["Financial freedom", "Impact", "Recognition"]
         }
       },
       jobsToBeDone: {
-        primaryStruggles: [
+        struggles: [
           "Difficulty converting expertise into scalable products",
           "Challenges with client acquisition and retention",
           "Overwhelm from wearing too many hats in the business"
         ],
-        jobsToBeDone: [
+        jobs: [
           "Create systems to package expertise into digital products",
           "Develop a consistent marketing strategy that attracts ideal clients",
           "Build team structures that free up the owner's time"
