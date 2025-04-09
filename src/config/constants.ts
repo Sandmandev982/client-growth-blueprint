@@ -3,8 +3,8 @@
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 
 // App Configuration
-export const APP_NAME = 'Client Growth Blueprint';
-export const APP_DESCRIPTION = 'Generate ideal client profiles and growth strategies for your business';
+export const APP_NAME = 'VBF Process';
+export const APP_DESCRIPTION = 'We make sure you know you're the right market, for the right brand';
 
 // Feature Flags
 export const FEATURES = {
