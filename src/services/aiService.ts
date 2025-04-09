@@ -1,4 +1,3 @@
-
 import { supabase } from '../integrations/supabase/client';
 import { OPENAI_API_KEY } from '../config/constants';
 import type { GeneratedOutput, FormData } from '../types';
@@ -13,8 +12,9 @@ export const generateClientProfile = async (data: FormData): Promise<{
   try {
     console.log("Generating client profile with data:", data);
     
-    // Check if API key is available
+    // Enhanced API key validation
     if (!OPENAI_API_KEY) {
+      console.error("No OpenAI API key found");
       toast.error("OpenAI API key is not configured. Please add it to your environment variables.");
       throw new Error("OpenAI API key is not configured");
     }
@@ -30,6 +30,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
     };
     
     // Generate the client blueprint text using the prompt engine
+    console.log("Calling generateClientBlueprint with:", promptData);
     const blueprintText = await generateClientBlueprint(promptData);
     console.log("Generated blueprint text:", blueprintText);
     
@@ -43,7 +44,14 @@ export const generateClientProfile = async (data: FormData): Promise<{
     };
   } catch (error) {
     console.error("Error generating client profile:", error);
-    toast.error("Failed to generate client profile. Please try again.");
+    
+    // More specific error toasting
+    if (error instanceof Error) {
+      toast.error(error.message || "Failed to generate client profile. Please try again.");
+    } else {
+      toast.error("An unexpected error occurred. Please try again.");
+    }
+    
     throw error;
   }
 };
