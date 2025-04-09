@@ -2,6 +2,7 @@
 import { OPENAI_API_KEY } from '../../config/constants';
 import { clientProfilePrompt } from '../prompts/clientProfile';
 import type { GeneratedOutput } from '../../types';
+import OpenAI from 'openai';
 
 /**
  * AI Prompt Engine
@@ -21,131 +22,41 @@ export async function generateClientBlueprint(formData: {
   }
 
   try {
-    // In a real implementation, this would make an actual API call
-    // For now, we'll use a mock implementation until we connect to OpenAI
+    // Initialize OpenAI client
+    const openai = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
+
     console.log('Generating blueprint with data:', formData);
-    console.log('Using prompt:', clientProfilePrompt(formData));
     
-    // Mock response for development - In production, this would call the OpenAI API
-    const mockResponse = `
-# Client Growth Blueprint
-
-## 1. Preliminary Transformation Statement
-Transform your expertise into a scalable, profitable business system that attracts premium clients while giving you back your time.
-
-## 2. Ideal Client Avatar
-
-### Demographics
-- Age: 35-50 years old
-- Gender: All genders (slight female majority)
-- Location: Urban and suburban areas
-- Income: $80,000-$250,000+
-- Education: Bachelor's degree or higher
-- Occupation: Consultants, coaches, service professionals, subject matter experts
-
-### Psychographics
-- Values: Freedom, impact, recognition, growth, quality
-- Interests: Business development, personal growth, innovation, efficiency
-- Goals: Scale their business, create passive income streams, establish thought leadership
-- Challenges: Time constraints, pricing insecurities, inconsistent client acquisition
-- Motivations: Financial freedom, greater impact, recognition in their field
-
-### Pain Points
-- Working too many hours for insufficient income
-- Trapped in the time-for-money cycle
-- Struggling to stand out in a crowded market
-- Inability to take vacations without business suffering
-- Feeling overwhelmed by marketing demands
-
-### Desired Outcomes
-- A systematic business that can run without constant oversight
-- Consistent, predictable client acquisition
-- Premium positioning that justifies higher rates
-- More free time with family while maintaining or increasing income
-- Recognition as an authority in their field
-
-## 3. Primary Struggles & Jobs To Be Done
-
-### Key Struggles
-- Difficulty converting expertise into scalable products
-- Challenges with client acquisition and retention
-- Overwhelm from wearing too many hats in the business
-- Inconsistent messaging that fails to differentiate
-- Inability to escape the hourly billing trap
-
-### Jobs To Be Done
-- Create systems to package expertise into digital products
-- Develop a consistent marketing strategy that attracts ideal clients
-- Build team structures that free up the owner's time
-- Craft a compelling brand story that justifies premium rates
-- Implement automation to reduce administrative burden
-
-### Strategic Marketing Angle
-Position yourself as the trusted guide who helps experts transform their knowledge into scalable, profitable business systems that attract premium clients while giving them back their time.
-
-## 4. Transformation Path
-
-### Zero State (Current Frustration)
-Overworked expert trapped in the time-for-money cycle, constantly hustling for the next client, undercharging for their expertise, and missing out on family time and self-care.
-
-### Hero State (Desired Outcome)
-Recognized authority with multiple income streams, a waitlist of premium clients, efficient systems run by a small team, and the freedom to take vacations while the business continues to thrive.
-
-### Steps Between States
-1. Clarity: Define signature framework and ideal client
-2. Systemization: Document processes and create repeatable systems
-3. Packaging: Develop premium offerings at multiple price points
-4. Positioning: Craft thought leadership content to establish authority
-5. Automation: Implement tech stack to reduce administrative burden
-6. Team Building: Delegate non-essential tasks to capable team members
-7. Scaling: Expand reach through strategic partnerships and referral systems
-
-## 5. Immediate Action Plan
-
-### This Week
-1. Document your current client transformation process (even if informal)
-2. Identify your three most profitable projects/clients from the past year
-3. Record a 3-minute video explaining your unique approach to client results
-
-### 30-Day Plan
-1. Create your signature framework one-page visual
-2. Develop a content calendar focused on your top 5 client pain points
-3. Raise your rates by at least 20% for all new clients
-4. Identify 3 tasks to outsource immediately
-5. Schedule 2 strategic partnership conversations
-
-## 6. Sample Engagement Post
-
-"Are you tired of trading time for money in your expertise-based business? 
-
-One of my clients, Sarah, was billing 50+ hours weekly as a marketing consultant but still couldn't break six figures. After implementing our Expertise Elevation Framework, she now:
-- Works with 5 premium clients (instead of 15 budget clients)
-- Generated $28K from her first digital product launch
-- Takes Fridays off completely
-
-The difference? She stopped selling her TIME and started selling her EXPERTISE SYSTEM.
-
-If you're ready to stop being the best-kept secret in your industry and start getting paid what you're worth, tap the link in my bio to grab my "Premium Positioning Playbook" - it's the exact 3-step process Sarah used to double her income while working fewer hours."
-
-## 7. Why This Works
-
-### Clarity
-This strategy simplifies complex business growth into a step-by-step transformation path that feels achievable. By focusing on the expertise your client already possesses, we remove the intimidation of creating something "new" and instead focus on packaging existing knowledge.
-
-### Emotional Resonance
-The messaging directly addresses the frustration of being undervalued and overworked—feelings that deeply resonate with expertise-based business owners. The promise of recognition and freedom connects with their core desires beyond just making more money.
-
-### Actionability
-Each section provides specific, doable next steps rather than vague advice. The immediate action plan gives them momentum-building wins they can implement today, while the 30-day plan creates sustainable progress.
-
-### Consistency
-This messaging framework creates cohesion across all client touchpoints—from social media to sales calls. The transformation story remains consistent, building credibility and trust through repeated, reinforced messaging about the path from overwhelm to freedom.
-`;
-
-    // In production, this would be:
-    // const response = await openai.completions.create({...})
+    const prompt = clientProfilePrompt(formData);
+    console.log('Using prompt:', prompt);
     
-    return mockResponse;
+    // Call OpenAI API
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You are a messaging strategist for online course creators. Return only markdown-formatted content without any explanations or introductions."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 1500
+    });
+
+    // Extract the generated text from the response
+    const generatedText = response.choices[0]?.message?.content || '';
+    
+    if (!generatedText) {
+      throw new Error('No content generated from OpenAI');
+    }
+    
+    return generatedText;
   } catch (error) {
     console.error('Error generating client blueprint:', error);
     throw new Error('Failed to generate client blueprint. Please try again.');
@@ -155,45 +66,126 @@ This messaging framework creates cohesion across all client touchpoints—from s
 // Function to parse the generated markdown into structured data
 export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
   try {
-    // This is a simplified parser for demonstration
-    // In production, you would use a more robust markdown parser
-    
-    // For now, we'll return a mock structured output
-    return {
+    // Parse the markdown text to extract structured data
+    const output: GeneratedOutput = {
       idealClientProfile: {
         demographics: {
-          age: "35-50 years old",
-          gender: "All genders (slight female majority)",
-          location: "Urban and suburban areas",
-          income: "$80,000-$250,000+",
-          education: "Bachelor's degree or higher",
-          occupation: "Consultants, coaches, service professionals, subject matter experts"
+          age: extractSection(markdownText, "Demographics", "Age") || "Not specified",
+          gender: extractSection(markdownText, "Demographics", "Gender") || "Not specified",
+          location: extractSection(markdownText, "Demographics", "Location") || "Not specified",
+          income: extractSection(markdownText, "Demographics", "Income") || "Not specified",
+          education: extractSection(markdownText, "Demographics", "Education") || "Not specified",
+          occupation: extractSection(markdownText, "Demographics", "Occupation") || "Not specified",
         },
         psychographics: {
-          values: ["Freedom", "Impact", "Recognition", "Growth", "Quality"],
-          interests: ["Business development", "Personal growth", "Innovation", "Efficiency"],
-          goals: ["Scale their business", "Create passive income streams", "Establish thought leadership"],
-          challenges: ["Time constraints", "Pricing insecurities", "Inconsistent client acquisition"],
-          motivations: ["Financial freedom", "Greater impact", "Recognition in their field"]
+          values: extractList(markdownText, "Psychographics", "Values") || ["Not specified"],
+          interests: extractList(markdownText, "Psychographics", "Interests") || ["Not specified"],
+          goals: extractList(markdownText, "Psychographics", "Goals") || ["Not specified"],
+          challenges: extractList(markdownText, "Psychographics", "Challenges") || ["Not specified"],
+          motivations: extractList(markdownText, "Psychographics", "Motivations") || ["Not specified"],
         }
       },
       jobsToBeDone: {
-        struggles: [
-          "Difficulty converting expertise into scalable products",
-          "Challenges with client acquisition and retention",
-          "Overwhelm from wearing too many hats in the business"
-        ],
-        jobs: [
-          "Create systems to package expertise into digital products",
-          "Develop a consistent marketing strategy that attracts ideal clients",
-          "Build team structures that free up the owner's time"
-        ],
-        marketingAngle: "Position yourself as the trusted guide who helps experts transform their knowledge into scalable, profitable business systems."
+        struggles: extractListFromSection(markdownText, "Key Struggles", 3) || 
+                  ["Difficulty scaling business", "Time management issues", "Marketing challenges"],
+        jobs: extractListFromSection(markdownText, "Jobs To Be Done", 3) || 
+              ["Create scalable systems", "Develop marketing strategy", "Build team structure"],
+        marketingAngle: extractSection(markdownText, "Strategic Marketing Angle") || 
+                        "Position as an expert who transforms knowledge into scalable systems."
       },
       millionDollarMessages: []
     };
+    
+    return output;
   } catch (error) {
     console.error('Error parsing generated blueprint:', error);
     throw new Error('Failed to parse generated content.');
+  }
+}
+
+// Helper function to extract a specific section from the markdown
+function extractSection(markdown: string, section: string, subsection?: string): string {
+  try {
+    const regex = subsection 
+      ? new RegExp(`${subsection}[:\\s]*(.*?)(?=\\n|$)`, 'i')
+      : new RegExp(`${section}[:\\s]*(.*?)(?=\\n|$)`, 'i');
+    
+    let content = markdown;
+    
+    // First find the section
+    if (subsection) {
+      const sectionRegex = new RegExp(`##?\\s*${section}([\\s\\S]*?)(?=##|$)`, 'i');
+      const sectionMatch = markdown.match(sectionRegex);
+      if (sectionMatch && sectionMatch[1]) {
+        content = sectionMatch[1];
+      } else {
+        return "";
+      }
+    }
+    
+    const match = content.match(regex);
+    return match && match[1] ? match[1].trim() : "";
+  } catch (error) {
+    console.error(`Error extracting section ${section}:`, error);
+    return "";
+  }
+}
+
+// Helper function to extract a list from a section in the markdown
+function extractList(markdown: string, section: string, subsection: string): string[] {
+  try {
+    // Find the section content
+    const sectionRegex = new RegExp(`##?\\s*${section}([\\s\\S]*?)(?=##|$)`, 'i');
+    const sectionMatch = markdown.match(sectionRegex);
+    
+    if (!sectionMatch || !sectionMatch[1]) return [];
+    
+    const sectionContent = sectionMatch[1];
+    
+    // Find the subsection within the section
+    const subsectionRegex = new RegExp(`${subsection}[:\\s]*([\\s\\S]*?)(?=\\n\\s*\\n|\\n\\s*#|$)`, 'i');
+    const subsectionMatch = sectionContent.match(subsectionRegex);
+    
+    if (!subsectionMatch || !subsectionMatch[1]) return [];
+    
+    // Extract list items
+    return subsectionMatch[1]
+      .split('\n')
+      .map(line => {
+        // Remove list markers (-, *, •) and trim
+        const item = line.replace(/^[-*•]\s*/, '').trim();
+        return item;
+      })
+      .filter(item => item !== '');
+  } catch (error) {
+    console.error(`Error extracting list for ${section}.${subsection}:`, error);
+    return [];
+  }
+}
+
+// Helper function to extract list items directly from a section
+function extractListFromSection(markdown: string, sectionName: string, maxItems: number = 5): string[] {
+  try {
+    // Find the section content
+    const sectionRegex = new RegExp(`###?\\s*${sectionName}([\\s\\S]*?)(?=###|##|$)`, 'i');
+    const sectionMatch = markdown.match(sectionRegex);
+    
+    if (!sectionMatch || !sectionMatch[1]) return [];
+    
+    // Extract list items
+    const items = sectionMatch[1]
+      .split('\n')
+      .map(line => {
+        // Remove list markers (-, *, •) and trim
+        const item = line.replace(/^[-*•]\s*/, '').trim();
+        return item;
+      })
+      .filter(item => item !== '')
+      .slice(0, maxItems); // Limit to maxItems
+    
+    return items;
+  } catch (error) {
+    console.error(`Error extracting list from section ${sectionName}:`, error);
+    return [];
   }
 }
