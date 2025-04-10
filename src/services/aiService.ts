@@ -20,6 +20,8 @@ export const generateClientProfile = async (data: FormData): Promise<{
       throw new Error("OpenAI API key is not configured");
     }
     
+    console.log("API Key validation passed, proceeding with generation");
+    
     // Transform form data to the format expected by the prompt engine
     const promptData = {
       niche: data.niche,
@@ -33,11 +35,11 @@ export const generateClientProfile = async (data: FormData): Promise<{
     // Generate the client blueprint text using the prompt engine
     console.log("Calling generateClientBlueprint with:", promptData);
     const blueprintText = await generateClientBlueprint(promptData);
-    console.log("Generated blueprint text:", blueprintText);
+    console.log("Generated blueprint text length:", blueprintText.length);
     
     // Parse the blueprint text into structured data
     const structuredOutput = parseGeneratedBlueprint(blueprintText);
-    console.log("Parsed structured output:", structuredOutput);
+    console.log("Parsed structured output completed");
     
     return {
       output: structuredOutput,
