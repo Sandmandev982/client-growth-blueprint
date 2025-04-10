@@ -1,3 +1,4 @@
+
 import { supabase } from '../integrations/supabase/client';
 import { OPENAI_API_KEY } from '../config/constants';
 import type { GeneratedOutput, FormData } from '../types';
@@ -15,7 +16,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
     // Enhanced API key validation
     if (!OPENAI_API_KEY) {
       console.error("No OpenAI API key found");
-      toast.error("OpenAI API key is not configured. Please add it to your environment variables.");
+      toast.error("OpenAI API key is not configured. Please add VITE_OPENAI_API_KEY to your environment variables.");
       throw new Error("OpenAI API key is not configured");
     }
     

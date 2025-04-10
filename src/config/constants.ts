@@ -1,6 +1,6 @@
 
 // API Keys and Configuration
-export const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
+export const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || '';
 
 // App Configuration
 export const APP_NAME = 'VBF Process';
