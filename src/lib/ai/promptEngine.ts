@@ -14,7 +14,7 @@ export async function generateClientBlueprint(formData: {
 }): Promise<string> {
   // Validate API key
   if (!OPENAI_API_KEY) {
-    throw new Error('OpenAI API key is missing. Please configure it in your environment variables as VITE_OPENAI_API_KEY.');
+    throw new Error('OpenAI API key is missing. Please add it to your Supabase secrets as OPENAI_API_KEY.');
   }
 
   try {
