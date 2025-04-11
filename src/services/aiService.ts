@@ -16,7 +16,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
     // Enhanced API key validation
     if (!OPENAI_API_KEY) {
       console.error("No OpenAI API key found");
-      toast.error("OpenAI API key is missing. Please add it to your Supabase secrets as OPENAI_API_KEY.");
+      toast.error("OpenAI API key is missing. Please add VITE_OPENAI_API_KEY to your environment variables.");
       throw new Error("OpenAI API key is not configured");
     }
     
