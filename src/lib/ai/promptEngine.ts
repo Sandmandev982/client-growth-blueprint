@@ -83,7 +83,7 @@ export async function generateClientBlueprint(formData: {
   }
 }
 
-// Function to parse the generated markdown into structured data
+// Improved function to parse the generated markdown into structured data
 export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
   try {
     console.log('Parsing blueprint text');
@@ -92,30 +92,52 @@ export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
     const output: GeneratedOutput = {
       idealClientProfile: {
         demographics: {
-          age: extractSection(markdownText, "Demographics", "Age") || extractSection(markdownText, "Ideal Client Avatar", "Age") || "Not specified",
-          gender: extractSection(markdownText, "Demographics", "Gender") || extractSection(markdownText, "Ideal Client Avatar", "Gender") || "Not specified",
-          location: extractSection(markdownText, "Demographics", "Location") || extractSection(markdownText, "Ideal Client Avatar", "Location") || "Not specified",
-          income: extractSection(markdownText, "Demographics", "Income") || extractSection(markdownText, "Ideal Client Avatar", "Income") || "Not specified",
-          education: extractSection(markdownText, "Demographics", "Education") || extractSection(markdownText, "Ideal Client Avatar", "Education") || "Not specified",
-          occupation: extractSection(markdownText, "Demographics", "Occupation") || extractSection(markdownText, "Ideal Client Avatar", "Occupation") || "Not specified",
+          age: extractSection(markdownText, "Demographics", "Age") || 
+               extractSection(markdownText, "Ideal Client Avatar", "Age") || 
+               "Not specified",
+          gender: extractSection(markdownText, "Demographics", "Gender") || 
+                 extractSection(markdownText, "Ideal Client Avatar", "Gender") || 
+                 "Not specified",
+          location: extractSection(markdownText, "Demographics", "Location") || 
+                   extractSection(markdownText, "Ideal Client Avatar", "Location") || 
+                   "Not specified",
+          income: extractSection(markdownText, "Demographics", "Income") || 
+                 extractSection(markdownText, "Ideal Client Avatar", "Income") || 
+                 "Not specified",
+          education: extractSection(markdownText, "Demographics", "Education") || 
+                    extractSection(markdownText, "Ideal Client Avatar", "Education") || 
+                    "Not specified",
+          occupation: extractSection(markdownText, "Demographics", "Occupation") || 
+                     extractSection(markdownText, "Ideal Client Avatar", "Occupation") || 
+                     "Not specified",
         },
         psychographics: {
-          values: extractList(markdownText, "Psychographics", "Values") || extractList(markdownText, "Ideal Client Avatar", "Values") || ["Not specified"],
-          interests: extractList(markdownText, "Psychographics", "Interests") || extractList(markdownText, "Ideal Client Avatar", "Interests") || ["Not specified"],
-          goals: extractList(markdownText, "Psychographics", "Goals") || extractList(markdownText, "Ideal Client Avatar", "Goals") || ["Not specified"],
-          challenges: extractList(markdownText, "Psychographics", "Challenges") || extractList(markdownText, "Ideal Client Avatar", "Challenges") || ["Not specified"],
-          motivations: extractList(markdownText, "Psychographics", "Motivations") || extractList(markdownText, "Ideal Client Avatar", "Motivations") || ["Not specified"],
+          values: extractList(markdownText, "Psychographics", "Values") || 
+                 extractList(markdownText, "Ideal Client Avatar", "Values") || 
+                 ["Not specified"],
+          interests: extractList(markdownText, "Psychographics", "Interests") || 
+                    extractList(markdownText, "Ideal Client Avatar", "Interests") || 
+                    ["Not specified"],
+          goals: extractList(markdownText, "Psychographics", "Goals") || 
+                extractList(markdownText, "Ideal Client Avatar", "Goals") || 
+                ["Not specified"],
+          challenges: extractList(markdownText, "Psychographics", "Challenges") || 
+                     extractList(markdownText, "Ideal Client Avatar", "Challenges") || 
+                     ["Not specified"],
+          motivations: extractList(markdownText, "Psychographics", "Motivations") || 
+                      extractList(markdownText, "Ideal Client Avatar", "Motivations") || 
+                      ["Not specified"],
         }
       },
       jobsToBeDone: {
-        struggles: extractListFromSection(markdownText, "Key Struggles", 3) || 
-                  extractListFromSection(markdownText, "Primary Struggles", 3) ||
+        struggles: extractListFromSection(markdownText, "Primary Struggles", 3) || 
+                  extractListFromSection(markdownText, "Key Struggles", 3) ||
                   extractListFromSection(markdownText, "Pain Points", 3) ||
                   ["Not specified"],
         jobs: extractListFromSection(markdownText, "Jobs To Be Done", 3) || 
               ["Not specified"],
-        marketingAngle: extractSection(markdownText, "Strategic Marketing Angle") || 
-                        extractSection(markdownText, "Transformation Path") ||
+        marketingAngle: extractSection(markdownText, "Transformation Path") || 
+                        extractSection(markdownText, "Strategic Marketing Angle") ||
                         "Not specified"
       },
       millionDollarMessages: [] // This field is not used in the current implementation
@@ -135,25 +157,25 @@ export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
 // Helper function to extract a specific section from the markdown
 function extractSection(markdown: string, section: string, subsection?: string): string {
   try {
-    const regex = subsection 
-      ? new RegExp(`${subsection}[:\\s]*(.*?)(?=\\n|$)`, 'i')
-      : new RegExp(`${section}[:\\s]*(.*?)(?=\\n|$)`, 'i');
-    
-    let content = markdown;
-    
-    // First find the section
+    // More robust section extraction with improved regex patterns
     if (subsection) {
+      // First find the section
       const sectionRegex = new RegExp(`##?\\s*${section}([\\s\\S]*?)(?=##|$)`, 'i');
       const sectionMatch = markdown.match(sectionRegex);
+      
       if (sectionMatch && sectionMatch[1]) {
-        content = sectionMatch[1];
-      } else {
-        return "";
+        // Then find the subsection within that section
+        const subsectionRegex = new RegExp(`${subsection}[:\\s-]*(.*?)(?=\\n|$)`, 'i');
+        const match = sectionMatch[1].match(subsectionRegex);
+        return match && match[1] ? match[1].trim() : "";
       }
+    } else {
+      // Extract entire section
+      const regex = new RegExp(`##?\\s*${section}[:\\s]*(.*?)(?=##|$)`, 'is');
+      const match = markdown.match(regex);
+      return match && match[1] ? match[1].trim() : "";
     }
-    
-    const match = content.match(regex);
-    return match && match[1] ? match[1].trim() : "";
+    return "";
   } catch (error) {
     console.error(`Error extracting section ${section}:`, error);
     return "";
@@ -172,17 +194,17 @@ function extractList(markdown: string, section: string, subsection: string): str
     const sectionContent = sectionMatch[1];
     
     // Find the subsection within the section
-    const subsectionRegex = new RegExp(`${subsection}[:\\s]*([\\s\\S]*?)(?=\\n\\s*\\n|\\n\\s*#|$)`, 'i');
+    const subsectionRegex = new RegExp(`${subsection}[:\\s]*([\\s\\S]*?)(?=\\n\\s*\\n|\\n\\s*[A-Z]|$)`, 'i');
     const subsectionMatch = sectionContent.match(subsectionRegex);
     
     if (!subsectionMatch || !subsectionMatch[1]) return [];
     
-    // Extract list items
+    // Extract list items with improved pattern matching
     return subsectionMatch[1]
       .split('\n')
       .map(line => {
-        // Remove list markers (-, *, •) and trim
-        const item = line.replace(/^[-*•]\s*/, '').trim();
+        // Remove list markers (-, *, •, numbers) and trim
+        const item = line.replace(/^[-*•\d.]\s*|\[\]|\[ \]|\[x\]\s*/i, '').trim();
         return item;
       })
       .filter(item => item !== '');
@@ -195,21 +217,21 @@ function extractList(markdown: string, section: string, subsection: string): str
 // Helper function to extract list items directly from a section
 function extractListFromSection(markdown: string, sectionName: string, maxItems: number = 5): string[] {
   try {
-    // Find the section content
+    // Find the section content with improved regex
     const sectionRegex = new RegExp(`###?\\s*${sectionName}([\\s\\S]*?)(?=###|##|$)`, 'i');
     const sectionMatch = markdown.match(sectionRegex);
     
     if (!sectionMatch || !sectionMatch[1]) return [];
     
-    // Extract list items
+    // Extract list items with better pattern matching
     const items = sectionMatch[1]
       .split('\n')
       .map(line => {
-        // Remove list markers (-, *, •) and trim
-        const item = line.replace(/^[-*•]\s*/, '').trim();
+        // Remove list markers (-, *, •, numbers) and trim
+        const item = line.replace(/^[-*•\d.]\s*|\[\]|\[ \]|\[x\]\s*/i, '').trim();
         return item;
       })
-      .filter(item => item !== '')
+      .filter(item => item !== '' && item.length > 1) // Filter out empty items and single characters
       .slice(0, maxItems); // Limit to maxItems
     
     return items;

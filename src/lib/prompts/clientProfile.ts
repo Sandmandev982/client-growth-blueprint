@@ -26,32 +26,85 @@ Given the following input:
 
 Return a markdown-formatted Client Growth Blueprint with these 7 specific sections:
 
-1. Preliminary Transformation Statement (Unique Selling Proposition)
-2. Ideal Client Avatar
-   - Demographics (age, gender, location, income, education, occupation)
-   - Psychographics (values, interests, goals, challenges, motivations)
-   - Pain Points (specific frustrations and obstacles)
-   - Desired Outcomes (tangible and emotional goals)
-3. Primary Struggles & Jobs To Be Done
-   - Key struggles that prevent progress
-   - Specific jobs your client needs done
-   - Strategic marketing angle
-4. Transformation Path
-   - Zero State (Current Frustration)
-   - Hero State (Desired Outcome)
-   - Steps between these states
-5. Immediate Action Plan
-   - This Week (3 specific actions)
-   - 30-Day Plan (milestone goals)
-6. Sample Engagement Post
-   - A ready-to-use social media post highlighting transformation
-7. Why This Works
-   - Clarity (message simplification)
-   - Emotional Resonance (connecting with feelings)
-   - Actionability (clear next steps)
-   - Consistency (cohesive messaging strategy)
+1. ## Preliminary Transformation Statement
+   A concise statement that captures the unique value proposition and transformation you offer.
 
-Return the output as a complete, human-sounding breakdown that mirrors real-life client language. Do not speak in general terms. Speak with specificity and motivational tone.`;
+2. ## Ideal Client Avatar
+   ### Demographics
+   - Age: 
+   - Gender: 
+   - Location: 
+   - Income: 
+   - Education: 
+   - Occupation: 
+   
+   ### Psychographics
+   - Values:
+     • [Value 1]
+     • [Value 2]
+     • [Value 3]
+   - Goals:
+     • [Goal 1]
+     • [Goal 2]
+     • [Goal 3]
+   - Challenges:
+     • [Challenge 1]
+     • [Challenge 2]
+     • [Challenge 3]
+   
+   ### Pain Points
+   - [Pain point 1]
+   - [Pain point 2]
+   - [Pain point 3]
+   
+   ### Desired Outcomes
+   - [Desired outcome 1]
+   - [Desired outcome 2]
+   - [Desired outcome 3]
+
+3. ## Primary Struggles & Jobs To Be Done
+   - [Struggle 1]
+   - [Struggle 2]
+   - [Struggle 3]
+   
+   ### Jobs To Be Done
+   - [Job 1]
+   - [Job 2]
+   - [Job 3]
+
+4. ## Transformation Path
+   ### Zero State (Current Frustration)
+   [Description of current state]
+   
+   ### Hero State (Desired Outcome)
+   [Description of desired state]
+   
+   ### Steps Between States
+   1. [Step 1]
+   2. [Step 2]
+   3. [Step 3]
+
+5. ## Immediate Action Plan
+   ### This Week
+   1. [Action 1]
+   2. [Action 2]
+   3. [Action 3]
+   
+   ### 30-Day Plan
+   1. [Milestone 1]
+   2. [Milestone 2]
+   3. [Milestone 3]
+
+6. ## Sample Engagement Post
+   [Sample social media post that encapsulates the transformation]
+
+7. ## Why This Works
+   - Clarity: [How the messaging simplifies complex ideas]
+   - Emotional Resonance: [How it connects with audience feelings]
+   - Actionability: [How it provides clear next steps]
+   - Consistency: [How it creates a cohesive messaging strategy]
+
+Return the output as a complete, human-sounding breakdown that mirrors real-life client language. Use specific, motivational language tailored to the context. Avoid generic terms and speak directly to the specific audience needs.`;
 };
 
 export default clientProfilePrompt;
