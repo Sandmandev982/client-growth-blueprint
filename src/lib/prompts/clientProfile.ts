@@ -31,12 +31,12 @@ Return a markdown-formatted Client Growth Blueprint with these 7 specific sectio
 
 2. ## Ideal Client Avatar
    ### Demographics
-   - Age: 
-   - Gender: 
-   - Location: 
-   - Income: 
-   - Education: 
-   - Occupation: 
+   - Age: [specific age range]
+   - Gender: [specific gender if relevant, or "All genders"]
+   - Location: [specific locations]
+   - Income: [specific income range]
+   - Education: [education level]
+   - Occupation: [specific occupation or industry]
    
    ### Psychographics
    - Values:
@@ -103,6 +103,8 @@ Return a markdown-formatted Client Growth Blueprint with these 7 specific sectio
    - Emotional Resonance: [How it connects with audience feelings]
    - Actionability: [How it provides clear next steps]
    - Consistency: [How it creates a cohesive messaging strategy]
+
+IMPORTANT: Replace all placeholder text (like [Value 1]) with specific, detailed content based on the target audience and niche. Be detailed and specific rather than generic. Use the exact headers and structure provided above.
 
 Return the output as a complete, human-sounding breakdown that mirrors real-life client language. Use specific, motivational language tailored to the context. Avoid generic terms and speak directly to the specific audience needs.`;
 };

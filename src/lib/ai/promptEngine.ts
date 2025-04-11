@@ -1,4 +1,3 @@
-
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '../../config/constants';
 import { clientProfilePrompt } from '../prompts/clientProfile';
@@ -32,7 +31,6 @@ export async function generateClientBlueprint(formData: {
     console.log('Using prompt template with input data');
     
     // Improved API call with better configuration
-    // Removed the invalid 'timeout' property
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini", // Using the recommended mini model for faster generation
       messages: [
