@@ -13,11 +13,17 @@ export const generateClientProfile = async (data: FormData): Promise<{
   try {
     console.log("Generating client profile with data:", data);
     
-    // Enhanced API key validation
+    // Enhanced API key validation with more descriptive error
     if (!OPENAI_API_KEY) {
-      console.error("No OpenAI API key found");
-      toast.error("OpenAI API key is missing. Please add VITE_OPENAI_API_KEY to your environment variables.");
-      throw new Error("OpenAI API key is not configured");
+      console.error("OpenAI API key not found");
+      toast.error("OpenAI API key is missing. Please check your environment variables.");
+      throw new Error("OpenAI API key is not configured. Check your .env file for VITE_OPENAI_API_KEY");
+    }
+    
+    if (OPENAI_API_KEY.trim() === '') {
+      console.error("OpenAI API key is empty");
+      toast.error("OpenAI API key is empty. Please add a valid API key to your environment variables.");
+      throw new Error("OpenAI API key is empty. Add a valid key to VITE_OPENAI_API_KEY in your .env file");
     }
     
     console.log("API Key validation passed, proceeding with generation");
@@ -48,9 +54,17 @@ export const generateClientProfile = async (data: FormData): Promise<{
   } catch (error) {
     console.error("Error generating client profile:", error);
     
-    // More specific error toasting
+    // More specific error handling with actionable messages
     if (error instanceof Error) {
-      toast.error(error.message || "Failed to generate client profile. Please try again.");
+      if (error.message.includes('API key')) {
+        toast.error(`API key issue: ${error.message}`);
+      } else if (error.message.includes('429')) {
+        toast.error("OpenAI rate limit reached. Please try again in a few moments.");
+      } else if (error.message.includes('401')) {
+        toast.error("Invalid OpenAI API key. Please check your key and try again.");
+      } else {
+        toast.error(`Error: ${error.message}. Please try again.`);
+      }
     } else {
       toast.error("An unexpected error occurred. Please try again.");
     }
