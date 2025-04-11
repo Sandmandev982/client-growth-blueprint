@@ -32,6 +32,7 @@ export async function generateClientBlueprint(formData: {
     console.log('Using prompt template with input data');
     
     // Improved API call with better configuration
+    // Removed the invalid 'timeout' property
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini", // Using the recommended mini model for faster generation
       messages: [
@@ -45,8 +46,7 @@ export async function generateClientBlueprint(formData: {
         }
       ],
       temperature: 0.7,
-      max_tokens: 1500,
-      timeout: 60000 // 60 second timeout
+      max_tokens: 1500
     });
 
     console.log('OpenAI Response received:', response.choices[0]?.finish_reason);
