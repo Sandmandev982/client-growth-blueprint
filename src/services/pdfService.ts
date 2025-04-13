@@ -1,6 +1,6 @@
 
 import { GeneratedOutput } from "../types";
-import { toast } from "@/hooks/use-toast"; // Fixed import path
+import { toast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
 export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
@@ -32,13 +32,23 @@ export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
     doc.setFontSize(10);
     
     try {
+      // Use type assertions to tell TypeScript these properties exist
       const demographics = data.idealClientProfile?.demographics || {};
-      doc.text(`Age: ${demographics.age || 'Not specified'}`, 30, 60);
-      doc.text(`Gender: ${demographics.gender || 'Not specified'}`, 30, 65);
-      doc.text(`Location: ${demographics.location || 'Not specified'}`, 30, 70);
-      doc.text(`Education: ${demographics.education || 'Not specified'}`, 30, 75);
-      doc.text(`Income: ${demographics.income || 'Not specified'}`, 30, 80);
-      doc.text(`Occupation: ${demographics.occupation || 'Not specified'}`, 30, 85);
+      const typedDemographics = demographics as {
+        age?: string;
+        gender?: string;
+        location?: string;
+        education?: string;
+        income?: string;
+        occupation?: string;
+      };
+      
+      doc.text(`Age: ${typedDemographics.age || 'Not specified'}`, 30, 60);
+      doc.text(`Gender: ${typedDemographics.gender || 'Not specified'}`, 30, 65);
+      doc.text(`Location: ${typedDemographics.location || 'Not specified'}`, 30, 70);
+      doc.text(`Education: ${typedDemographics.education || 'Not specified'}`, 30, 75);
+      doc.text(`Income: ${typedDemographics.income || 'Not specified'}`, 30, 80);
+      doc.text(`Occupation: ${typedDemographics.occupation || 'Not specified'}`, 30, 85);
     } catch (err) {
       console.error('Error adding demographics to PDF:', err);
       doc.text('Demographics data could not be processed', 30, 60);
@@ -51,10 +61,14 @@ export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
     
     try {
       const psychographics = data.idealClientProfile?.psychographics || {};
+      const typedPsychographics = psychographics as {
+        values?: string[];
+        goals?: string[];
+      };
       
       // Add values
       doc.text("Values:", 30, 105);
-      const values = psychographics.values || ['Not specified'];
+      const values = typedPsychographics.values || ['Not specified'];
       values.forEach((value, index) => {
         if (index < 3) { // Limit to 3 items to prevent overflow
           doc.text(`• ${value}`, 40, 110 + (index * 5));
@@ -63,7 +77,7 @@ export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
       
       // Add goals
       doc.text("Goals:", 30, 125);
-      const goals = psychographics.goals || ['Not specified'];
+      const goals = typedPsychographics.goals || ['Not specified'];
       goals.forEach((goal, index) => {
         if (index < 3) { // Limit to 3 items to prevent overflow
           doc.text(`• ${goal}`, 40, 130 + (index * 5));

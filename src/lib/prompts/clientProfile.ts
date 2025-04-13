@@ -104,7 +104,7 @@ Return a markdown-formatted Client Growth Blueprint with these 7 specific sectio
    - Actionability: [How it provides clear next steps]
    - Consistency: [How it creates a cohesive messaging strategy]
 
-IMPORTANT: Replace all placeholder text (like [Value 1]) with specific, detailed content based on the target audience and niche. Be detailed and specific rather than generic. Use the exact headers and structure provided above.
+IMPORTANT: Replace all placeholder text (like [Value 1]) with specific, detailed content based on the target audience and niche. Be detailed and specific rather than generic. Use the exact headers and structure provided above. Make sure to follow the format exactly, as this will be parsed by a system.
 
 Return the output as a complete, human-sounding breakdown that mirrors real-life client language. Use specific, motivational language tailored to the context. Avoid generic terms and speak directly to the specific audience needs.`;
 };
