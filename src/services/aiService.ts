@@ -1,13 +1,14 @@
 
 import { supabase } from '../integrations/supabase/client';
 import { OPENAI_API_KEY } from '../config/constants';
-import type { GeneratedOutput, FormData } from '../types';
-import { generateClientBlueprint, parseGeneratedBlueprint } from '../lib/ai/promptEngine';
+import type { FormData } from '../types';
+import { BlueprintData } from '@/types/ClientProfile';
+import { generateClientBlueprint, processClientBlueprint } from '../lib/ai/promptEngine';
 import { toast } from 'sonner';
 
 // Function to generate client profile using OpenAI
 export const generateClientProfile = async (data: FormData): Promise<{ 
-  output: GeneratedOutput; 
+  output: BlueprintData; 
   blueprintText: string;
 }> => {
   try {
@@ -44,7 +45,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
     console.log("Generated blueprint text length:", blueprintText.length);
     
     // Parse the blueprint text into structured data
-    const structuredOutput = parseGeneratedBlueprint(blueprintText);
+    const structuredOutput = await processClientBlueprint(blueprintText);
     console.log("Parsed structured output completed");
     
     return {
@@ -74,7 +75,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
 };
 
 // Function to save lead data to Supabase
-export const saveLeadToDatabase = async (email: string, generatedOutput: GeneratedOutput, blueprintText: string) => {
+export const saveLeadToDatabase = async (email: string, generatedOutput: BlueprintData, blueprintText: string) => {
   try {
     console.log("Saving lead data for email:", email);
     
@@ -85,7 +86,13 @@ export const saveLeadToDatabase = async (email: string, generatedOutput: Generat
           email: email,
           ideal_client_profile: generatedOutput.idealClientProfile,
           jobs_to_be_done: generatedOutput.jobsToBeDone,
-          transformation_outputs: { fullBlueprint: blueprintText }
+          transformation_outputs: { 
+            transformationPath: generatedOutput.transformationPath,
+            immediateActionPlan: generatedOutput.immediateActionPlan,
+            sampleEngagementPost: generatedOutput.sampleEngagementPost,
+            whyThisWorks: generatedOutput.whyThisWorks,
+            fullBlueprint: blueprintText 
+          }
         }
       ]);
 

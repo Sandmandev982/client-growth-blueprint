@@ -1,8 +1,8 @@
 
 import { clientProfilePrompt } from '../prompts/clientProfile';
-import type { GeneratedOutput } from '../../types';
 import { generateAIContent } from './openai';
-import { parseGeneratedBlueprint } from './blueprintParser';
+import { parseGPTResponse } from './parseGPTResponse';
+import { BlueprintData } from '@/types/ClientProfile';
 
 /**
  * Generates a client blueprint based on form data
@@ -34,5 +34,18 @@ export async function generateClientBlueprint(formData: {
   }
 }
 
+/**
+ * Processes the raw generated text and returns structured blueprint data
+ */
+export async function processClientBlueprint(generatedText: string): Promise<BlueprintData> {
+  try {
+    // Parse the generated text into structured data
+    return parseGPTResponse(generatedText);
+  } catch (error) {
+    console.error('Error processing client blueprint:', error);
+    throw error;
+  }
+}
+
 // Re-export the parser function for convenience
-export { parseGeneratedBlueprint };
+export { parseGPTResponse };

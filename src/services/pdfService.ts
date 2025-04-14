@@ -1,9 +1,9 @@
 
-import { GeneratedOutput } from "../types";
+import { BlueprintData } from "@/types/ClientProfile";
 import { toast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
-export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
+export const exportToPDF = (data: BlueprintData, brandName: string): string => {
   try {
     console.log("Exporting to PDF:", data);
     
@@ -22,103 +22,110 @@ export const exportToPDF = (data: GeneratedOutput, brandName: string) => {
     doc.setFontSize(10);
     doc.text(`Generated: ${today.toLocaleDateString()}`, 20, 30);
     
-    // Add section headers and content
+    // Add Preliminary Transformation Statement
     doc.setFontSize(16);
-    doc.text("Ideal Client Profile", 20, 40);
+    doc.text("Preliminary Transformation Statement", 20, 40);
+    doc.setFontSize(10);
     
-    // Add demographics if they exist
+    const preliminaryTransformation = data.preliminaryTransformation || "Not specified";
+    const wrappedTransformation = doc.splitTextToSize(preliminaryTransformation, 170);
+    doc.text(wrappedTransformation, 20, 45);
+    
+    // Add Ideal Client Profile section
+    doc.setFontSize(16);
+    doc.text("Ideal Client Profile", 20, 60);
+    
+    // Add demographics
     doc.setFontSize(14);
-    doc.text("Demographics", 20, 50);
+    doc.text("Demographics", 20, 70);
     doc.setFontSize(10);
     
     try {
-      // Use type assertions to tell TypeScript these properties exist
-      const demographics = data.idealClientProfile?.demographics || {};
-      const typedDemographics = demographics as {
-        age?: string;
-        gender?: string;
-        location?: string;
-        education?: string;
-        income?: string;
-        occupation?: string;
-      };
+      const demographics = data.idealClientProfile.demographics;
       
-      doc.text(`Age: ${typedDemographics.age || 'Not specified'}`, 30, 60);
-      doc.text(`Gender: ${typedDemographics.gender || 'Not specified'}`, 30, 65);
-      doc.text(`Location: ${typedDemographics.location || 'Not specified'}`, 30, 70);
-      doc.text(`Education: ${typedDemographics.education || 'Not specified'}`, 30, 75);
-      doc.text(`Income: ${typedDemographics.income || 'Not specified'}`, 30, 80);
-      doc.text(`Occupation: ${typedDemographics.occupation || 'Not specified'}`, 30, 85);
+      doc.text(`Age: ${demographics.age}`, 30, 80);
+      doc.text(`Gender: ${demographics.gender}`, 30, 85);
+      doc.text(`Location: ${demographics.location}`, 30, 90);
+      doc.text(`Education: ${demographics.education}`, 30, 95);
+      doc.text(`Income: ${demographics.income}`, 30, 100);
+      doc.text(`Occupation: ${demographics.occupation}`, 30, 105);
     } catch (err) {
       console.error('Error adding demographics to PDF:', err);
-      doc.text('Demographics data could not be processed', 30, 60);
+      doc.text('Demographics data could not be processed', 30, 80);
     }
     
-    // Add psychographics if they exist
+    // Add psychographics
     doc.setFontSize(14);
-    doc.text("Psychographics", 20, 95);
+    doc.text("Psychographics", 20, 115);
     doc.setFontSize(10);
     
     try {
-      const psychographics = data.idealClientProfile?.psychographics || {};
-      const typedPsychographics = psychographics as {
-        values?: string[];
-        goals?: string[];
-      };
+      const psychographics = data.idealClientProfile.psychographics;
       
       // Add values
-      doc.text("Values:", 30, 105);
-      const values = typedPsychographics.values || ['Not specified'];
+      doc.text("Values:", 30, 125);
+      const values = psychographics.values || ['Not specified'];
       values.forEach((value, index) => {
         if (index < 3) { // Limit to 3 items to prevent overflow
-          doc.text(`• ${value}`, 40, 110 + (index * 5));
+          doc.text(`• ${value}`, 40, 130 + (index * 5));
         }
       });
       
       // Add goals
-      doc.text("Goals:", 30, 125);
-      const goals = typedPsychographics.goals || ['Not specified'];
+      doc.text("Goals:", 30, 145);
+      const goals = psychographics.goals || ['Not specified'];
       goals.forEach((goal, index) => {
         if (index < 3) { // Limit to 3 items to prevent overflow
-          doc.text(`• ${goal}`, 40, 130 + (index * 5));
+          doc.text(`• ${goal}`, 40, 150 + (index * 5));
         }
       });
     } catch (err) {
       console.error('Error adding psychographics to PDF:', err);
-      doc.text('Psychographics data could not be processed', 30, 105);
+      doc.text('Psychographics data could not be processed', 30, 125);
     }
     
     // Add Jobs To Be Done section
     doc.setFontSize(16);
-    doc.text("Jobs To Be Done", 20, 150);
+    doc.text("Jobs To Be Done", 20, 170);
     
     // Add struggles
     try {
       doc.setFontSize(14);
-      doc.text("Key Struggles", 20, 160);
+      doc.text("Key Struggles", 20, 180);
       doc.setFontSize(10);
-      const struggles = data.jobsToBeDone?.struggles || ['Not specified'];
+      const struggles = data.jobsToBeDone.struggles || ['Not specified'];
       struggles.forEach((struggle, index) => {
         if (index < 3) { // Limit to 3 items to prevent overflow
-          doc.text(`${index + 1}. ${struggle}`, 30, 170 + (index * 5));
+          doc.text(`${index + 1}. ${struggle}`, 30, 190 + (index * 5));
         }
       });
       
       // Add marketing angle
       doc.setFontSize(14);
-      doc.text("Strategic Marketing Angle", 20, 190);
+      doc.text("Strategic Marketing Angle", 20, 210);
       doc.setFontSize(10);
       
       // Wrap the marketing angle text if it's too long
-      const marketingAngle = data.jobsToBeDone?.marketingAngle || 'Not specified';
+      const marketingAngle = data.jobsToBeDone.marketingAngle || 'Not specified';
       const wrappedMarketingAngle = doc.splitTextToSize(
         marketingAngle, 
         150 // Maximum width in points
       );
-      doc.text(wrappedMarketingAngle, 30, 200);
+      doc.text(wrappedMarketingAngle, 30, 220);
+      
+      // Add sample engagement post
+      doc.addPage();
+      doc.setFontSize(16);
+      doc.text("Sample Engagement Post", 20, 20);
+      doc.setFontSize(10);
+      
+      const samplePost = data.sampleEngagementPost || 'Not specified';
+      const wrappedSamplePost = doc.splitTextToSize(samplePost, 170);
+      doc.text(wrappedSamplePost, 20, 30);
+      
     } catch (err) {
       console.error('Error adding jobs to be done to PDF:', err);
-      doc.text('Jobs To Be Done data could not be processed', 30, 160);
+      doc.text('Jobs To Be Done data could not be processed', 30, 180);
     }
     
     // Add PDF description footer

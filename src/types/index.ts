@@ -1,26 +1,7 @@
-export type IdealClientProfile = {
-  demographics: {
-    age: string;
-    gender: string;
-    location: string;
-    education: string;
-    income: string;
-    occupation: string;
-  };
-  psychographics: {
-    values: string[];
-    interests: string[];
-    goals: string[];
-    challenges: string[];
-    motivations: string[];
-  };
-};
 
-export type JobsToBeDone = {
-  struggles: string[];
-  jobs: string[];
-  marketingAngle: string;
-};
+import { BlueprintData, ClientProfile, JobsToBeDone } from './ClientProfile';
+
+export type IdealClientProfile = ClientProfile;
 
 export type MillionDollarMessage = {
   headline: string;
@@ -41,8 +22,7 @@ export interface FormData {
   gdprConsent: boolean;
 }
 
-export type GeneratedOutput = {
-  idealClientProfile: IdealClientProfile;
-  jobsToBeDone: JobsToBeDone;
-  millionDollarMessages: MillionDollarMessage[];
-};
+export type GeneratedOutput = BlueprintData;
+
+// Re-export the ClientProfile types for convenience
+export { BlueprintData, ClientProfile, JobsToBeDone };

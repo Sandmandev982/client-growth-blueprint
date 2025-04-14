@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import type { GeneratedOutput } from '@/types';
+import type { BlueprintData } from '@/types/ClientProfile';
 import IdealClientProfileCard from './IdealClientProfileCard';
 import JobsToBeDoneCard from './JobsToBeDoneCard';
 import PDFEmailExport from './PDFEmailExport';
@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
 
 interface GeneratedClientProfileProps {
-  generatedOutput: GeneratedOutput | null;
+  generatedOutput: BlueprintData | null;
   blueprintText: string;
   isLoading?: boolean;
 }
