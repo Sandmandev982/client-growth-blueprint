@@ -40,7 +40,6 @@ const ExportTools: React.FC<ExportToolsProps> = ({ generatedData, formData }) =>
     });
     
     text += "\n## Key Struggles & Jobs To Be Done\n\n";
-    
     text += "### Primary Struggles\n";
     generatedData.jobsToBeDone.struggles.forEach((struggle, i) => {
       text += `${i + 1}. ${struggle}\n`;
@@ -49,19 +48,6 @@ const ExportTools: React.FC<ExportToolsProps> = ({ generatedData, formData }) =>
     text += "\n### Jobs To Be Done\n";
     generatedData.jobsToBeDone.jobs.forEach((job, i) => {
       text += `${i + 1}. ${job}\n`;
-    });
-    
-    text += "\n### Best Marketing Angle\n";
-    text += `"${generatedData.jobsToBeDone.marketingAngle}"\n\n`;
-    
-    text += "## Million Dollar Messages\n\n";
-    generatedData.millionDollarMessages.forEach((message, i) => {
-      text += `### Message ${i + 1}: ${message.headline}\n\n`;
-      text += `Problem: ${message.problem}\n\n`;
-      text += `Solution: ${message.solution}\n\n`;
-      text += `Differentiation: ${message.differentiation}\n\n`;
-      text += `CTA: ${message.cta}\n\n`;
-      text += `Why It Works: ${message.whyItWorks}\n\n`;
     });
     
     navigator.clipboard.writeText(text);

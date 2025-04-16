@@ -1,16 +1,7 @@
 
-import { BlueprintData, ClientProfile, JobsToBeDone } from './ClientProfile';
+import type { BlueprintData, ClientProfile, JobsToBeDone } from './ClientProfile';
 
 export type IdealClientProfile = ClientProfile;
-
-export type MillionDollarMessage = {
-  headline: string;
-  problem: string;
-  solution: string;
-  differentiation: string;
-  cta: string;
-  whyItWorks: string;
-};
 
 export interface FormData {
   niche: string;
@@ -24,5 +15,5 @@ export interface FormData {
 
 export type GeneratedOutput = BlueprintData;
 
-// Re-export the ClientProfile types for convenience
-export { BlueprintData, ClientProfile, JobsToBeDone };
+// Re-export the ClientProfile types
+export type { BlueprintData, ClientProfile, JobsToBeDone };
