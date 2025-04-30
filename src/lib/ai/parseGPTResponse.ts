@@ -59,8 +59,10 @@ export function parseGPTResponse(markdownResponse: string): BlueprintData {
     // Parse Jobs To Be Done
     const jobsToBeDone: JobsToBeDone = {
       struggles: extractList(markdownResponse, "Primary Struggles", "Struggles") || 
+                 extractListFromSection(markdownResponse, "Primary Struggles") || 
                  ["Not specified"],
       jobs: extractList(markdownResponse, "Jobs To Be Done", "Jobs") || 
+            extractListFromSection(markdownResponse, "Jobs To Be Done") || 
             ["Not specified"],
       marketingAngle: extractSection(markdownResponse, "Transformation Path") || 
                       "Not specified"
@@ -73,14 +75,17 @@ export function parseGPTResponse(markdownResponse: string): BlueprintData {
       heroState: extractSection(markdownResponse, "Transformation Path", "Hero State") || 
                  "Not specified",
       steps: extractList(markdownResponse, "Steps Between States", "Steps") || 
+             extractListFromSection(markdownResponse, "Steps Between States") || 
              ["Not specified"]
     };
     
     // Parse Immediate Action Plan
     const immediateActionPlan = {
       thisWeek: extractList(markdownResponse, "This Week", "Tasks") || 
+                extractListFromSection(markdownResponse, "This Week") || 
                 ["Not specified"],
       thirtyDayPlan: extractList(markdownResponse, "30-Day Plan", "Tasks") || 
+                     extractListFromSection(markdownResponse, "30-Day Plan") || 
                      ["Not specified"]
     };
     

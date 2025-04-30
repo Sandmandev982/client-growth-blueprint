@@ -18,15 +18,18 @@ export async function generateClientBlueprint(formData: {
   try {
     console.log('Generating blueprint with data:', formData);
     
+    // Generate the prompt using the template and user's input
     const prompt = clientProfilePrompt(formData);
     console.log('Using prompt template with input data');
     
+    // Call OpenAI API with the generated prompt
     const generatedText = await generateAIContent(
       "You are a strategic messaging expert generating a comprehensive client growth blueprint.",
       prompt,
       { temperature: 0.7, maxTokens: 1500 }
     );
     
+    console.log('Blueprint generated successfully, length:', generatedText.length);
     return generatedText;
   } catch (error) {
     console.error('Error generating client blueprint:', error);
@@ -39,11 +42,16 @@ export async function generateClientBlueprint(formData: {
  */
 export async function processClientBlueprint(generatedText: string): Promise<BlueprintData> {
   try {
-    // Parse the generated text into structured data
-    return parseGPTResponse(generatedText);
+    console.log('Processing generated blueprint text into structured data');
+    
+    // Parse the generated text into structured data using the parser
+    const parsedData = parseGPTResponse(generatedText);
+    
+    console.log('Blueprint parsing complete');
+    return parsedData;
   } catch (error) {
     console.error('Error processing client blueprint:', error);
-    throw error;
+    throw new Error(`Failed to parse AI response: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 

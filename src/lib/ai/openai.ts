@@ -2,7 +2,7 @@
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '../../config/constants';
 
-// Initialize and export OpenAI client
+// Initialize and export OpenAI client with better error handling
 export const initializeOpenAI = () => {
   // Enhanced API key validation
   if (!OPENAI_API_KEY || OPENAI_API_KEY.trim() === '') {
@@ -15,7 +15,7 @@ export const initializeOpenAI = () => {
   });
 };
 
-// Function to generate content using OpenAI
+// Function to generate content using OpenAI with improved error handling
 export const generateAIContent = async (
   systemPrompt: string, 
   userPrompt: string,
