@@ -27,9 +27,9 @@ export const generateAIContent = async (
     
     console.log('Calling OpenAI API with system prompt and user prompt');
     
-    // Improved API call with better configuration
+    // Use the configured API key from Supabase secrets
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Using the recommended mini model for faster generation
+      model: "gpt-4o-mini", // Using a supported model
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
@@ -53,7 +53,7 @@ export const generateAIContent = async (
   } catch (error) {
     console.error('Error generating AI content:', error);
     
-    // More informative error handling with specific error types
+    // More informative error handling
     if (error instanceof OpenAI.APIError) {
       console.error('OpenAI API Error details:', error.status, error.message);
       

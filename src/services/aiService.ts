@@ -14,20 +14,13 @@ export const generateClientProfile = async (data: FormData): Promise<{
   try {
     console.log("Generating client profile with data:", data);
     
-    // Enhanced API key validation with more descriptive error
+    // Check for API key - when using Supabase secret, this should be properly populated
+    // from the constants file which gets its value from the environment
     if (!OPENAI_API_KEY) {
       console.error("OpenAI API key not found");
-      toast.error("OpenAI API key is missing. Please check your environment variables.");
-      throw new Error("OpenAI API key is not configured. Check your .env file for VITE_OPENAI_API_KEY");
+      toast.error("OpenAI API key is missing. Please add it in your Supabase secrets.");
+      throw new Error("OpenAI API key is not configured. Please add the OPENAI_API_KEY to your Supabase secrets.");
     }
-    
-    if (OPENAI_API_KEY.trim() === '') {
-      console.error("OpenAI API key is empty");
-      toast.error("OpenAI API key is empty. Please add a valid API key to your environment variables.");
-      throw new Error("OpenAI API key is empty. Add a valid key to VITE_OPENAI_API_KEY in your .env file");
-    }
-    
-    console.log("API Key validation passed, proceeding with generation");
     
     // Transform form data to the format expected by the prompt engine
     const promptData = {
@@ -55,7 +48,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
   } catch (error) {
     console.error("Error generating client profile:", error);
     
-    // More specific error handling with actionable messages
+    // More specific error handling
     if (error instanceof Error) {
       if (error.message.includes('API key')) {
         toast.error(`API key issue: ${error.message}`);
