@@ -26,6 +26,8 @@ export const generateAIContent = async (
     const openai = initializeOpenAI();
     
     console.log('Calling OpenAI API with system prompt and user prompt');
+    console.log('System prompt:', systemPrompt);
+    console.log('User prompt length:', userPrompt.length);
     
     // Use the configured API key from Supabase secrets
     const response = await openai.chat.completions.create({
