@@ -6,8 +6,12 @@ import { OPENAI_API_KEY } from '../../config/constants';
 export const initializeOpenAI = () => {
   // Enhanced API key validation
   if (!OPENAI_API_KEY || OPENAI_API_KEY.trim() === '') {
-    throw new Error('OpenAI API key is missing or empty. Please check your environment variables.');
+    console.error("OPENAI_API_KEY is missing or empty");
+    throw new Error('OpenAI API key is missing or empty. Please check your Supabase secrets.');
   }
+  
+  console.log("Initializing OpenAI with API key (first few chars):", 
+    OPENAI_API_KEY ? `${OPENAI_API_KEY.substring(0, 5)}...` : "MISSING");
 
   return new OpenAI({
     apiKey: OPENAI_API_KEY,
@@ -60,7 +64,7 @@ export const generateAIContent = async (
       console.error('OpenAI API Error details:', error.status, error.message);
       
       if (error.status === 401) {
-        throw new Error(`Authentication error: Invalid API key. Please check your OpenAI API key.`);
+        throw new Error(`Authentication error: Invalid API key. Please check your OpenAI API key in Supabase secrets.`);
       } else if (error.status === 429) {
         throw new Error(`Rate limit exceeded: ${error.message}. Please try again in a few moments.`);
       } else if (error.status === 500) {

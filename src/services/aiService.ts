@@ -14,12 +14,13 @@ export const generateClientProfile = async (data: FormData): Promise<{
   try {
     console.log("Generating client profile with data:", data);
     
-    // Check for API key - when using Supabase secret, this should be properly populated
-    // from the constants file which gets its value from the environment
+    // Check if API key exists and log its status (not the actual key)
     if (!OPENAI_API_KEY) {
       console.error("OpenAI API key not found");
-      toast.error("OpenAI API key is missing. Please add it in your Supabase secrets.");
-      throw new Error("OpenAI API key is not configured. Please add the OPENAI_API_KEY to your Supabase secrets.");
+      toast.error("OpenAI API key is missing. Please check your Supabase secrets or refresh the page.");
+      throw new Error("OpenAI API key is not configured properly. Please check the Supabase secrets.");
+    } else {
+      console.log("OpenAI API key is present (length):", OPENAI_API_KEY.length);
     }
     
     // Transform form data to the format expected by the prompt engine
@@ -55,7 +56,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
       } else if (error.message.includes('429')) {
         toast.error("OpenAI rate limit reached. Please try again in a few moments.");
       } else if (error.message.includes('401')) {
-        toast.error("Invalid OpenAI API key. Please check your key and try again.");
+        toast.error("Invalid OpenAI API key. Please check your key in Supabase secrets.");
       } else {
         toast.error(`Error: ${error.message}. Please try again.`);
       }
