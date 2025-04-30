@@ -9,7 +9,7 @@ const BlueprintLoadingSkeleton = () => {
     <div className="py-8">
       <Card>
         <CardHeader>
-          <CardTitle>Generating Your Client Growth Blueprint...</CardTitle>
+          <CardTitle>Generating Your VBF Process Results...</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">

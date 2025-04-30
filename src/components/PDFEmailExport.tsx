@@ -35,7 +35,7 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
     }
 
     if (!generatedOutput) {
-      toast.error('No blueprint data to export');
+      toast.error('No data to export');
       return;
     }
 
@@ -44,14 +44,14 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
     try {
       // Save to Supabase
       await saveLeadToDatabase(email, generatedOutput, blueprintText);
-      toast.success('Success! Your Client Growth Blueprint has been sent to your email.');
+      toast.success('Success! Your VBF Process results have been sent to your email.');
       
       // Reset form
       setEmail('');
       setConsent(false);
     } catch (error) {
       console.error('Error saving data:', error);
-      toast.error('Failed to send blueprint. Please try again.');
+      toast.error('Failed to send results. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -59,7 +59,7 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
 
   return (
     <div className="border rounded-lg p-6 bg-card">
-      <h3 className="text-lg font-medium mb-4">Export Your Client Growth Blueprint</h3>
+      <h3 className="text-lg font-medium mb-4">Export Your VBF Process Results</h3>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid gap-2">
@@ -76,7 +76,7 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
             required
           />
           <p className="text-xs text-muted-foreground">
-            We'll send your complete Client Growth Blueprint to this email address.
+            We'll send your complete VBF Process results to this email address.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ const PDFEmailExport: React.FC<PDFEmailExportProps> = ({
           className="w-full"
           disabled={isSubmitting || !email || !consent}
         >
-          {isSubmitting ? 'Sending...' : 'Send Blueprint to My Email'}
+          {isSubmitting ? 'Sending...' : 'Send Results to My Email'}
         </Button>
       </form>
     </div>

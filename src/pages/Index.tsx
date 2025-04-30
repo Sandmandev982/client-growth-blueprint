@@ -26,10 +26,10 @@ const Index = () => {
       const { output, blueprintText } = await generateClientProfile(data);
       setGeneratedOutput(output);
       setBlueprintText(blueprintText);
-      toast.success("Your Client Growth Blueprint has been generated!");
+      toast.success("Your VBF Process has been generated!");
     } catch (error) {
       console.error("Error generating client profile:", error);
-      toast.error("Failed to generate client profile. Please try again.");
+      toast.error("Failed to generate profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +48,7 @@ const Index = () => {
         <div className="grid grid-cols-1 gap-8">
           {!isDataGenerated && (
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-lcm-black mb-2">Client Growth Blueprint</h1>
+              <h1 className="text-3xl font-bold text-lcm-black mb-2">VBF Process</h1>
               <p className="text-gray-600 max-w-3xl">
                 Generate your ideal client profile, identify key struggles and jobs to be done, and create powerful marketing messages that resonate with your audience.
               </p>
@@ -61,7 +61,7 @@ const Index = () => {
             <div className="space-y-8">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-lcm-black">
-                  {formData?.brandName}'s Client Growth Blueprint
+                  {formData?.brandName}'s VBF Process Results
                 </h2>
                 <Button
                   onClick={goToExport}

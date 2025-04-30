@@ -25,7 +25,7 @@ const GeneratedClientProfile: React.FC<GeneratedClientProfileProps> = ({
       <div className="py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Generating Your Client Growth Blueprint...</CardTitle>
+            <CardTitle>Generating Your VBF Process...</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center p-8">
@@ -45,7 +45,7 @@ const GeneratedClientProfile: React.FC<GeneratedClientProfileProps> = ({
     <div className="py-8 space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Your Client Growth Blueprint</CardTitle>
+          <CardTitle>Your VBF Process Results</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
