@@ -3,7 +3,7 @@
 export const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || '';
 
 // App Configuration
-export const APP_NAME = 'VBF Process';
+export const APP_NAME = 'Virtual Business Formula Process';
 export const APP_DESCRIPTION = 'We make sure you know you\'re the right market, for the right brand';
 
 // Feature Flags
