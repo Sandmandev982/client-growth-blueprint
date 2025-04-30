@@ -48,6 +48,7 @@ export function parseGPTResponse(markdownResponse: string): BlueprintData {
                      extractList(markdownResponse, "Ideal Client Avatar", "Motivations") || 
                      ["Not specified"],
       },
+      // Add missing required properties to match ClientProfile interface
       painPoints: extractList(markdownResponse, "Ideal Client Avatar", "Pain Points") || 
                   extractList(markdownResponse, "Pain Points") || 
                   ["Not specified"],

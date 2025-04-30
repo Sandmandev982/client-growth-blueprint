@@ -1,14 +1,15 @@
-## Project info
+
+## VBF Process App
 
 **URL**: https://lovable.dev/projects/4296fda5-d9db-48fc-832b-b6ffae674ffa
 
-Client Growth Blueprint is a web application that helps users generate detailed, actionable client growth strategies using AI. The app guides users through a structured input form, then leverages OpenAI to create a personalized, seven-section Client Growth Blueprint. All user data and blueprints are securely stored and managed with Supabase, with full GDPR compliance.
+VBF Process is a web application that helps users generate detailed, actionable client growth strategies using AI. The app guides users through a structured input form, then leverages OpenAI to create a personalized, seven-section Client Growth Blueprint. All user data and blueprints are securely stored and managed with Supabase, with full GDPR compliance.
 
-##Who is this for?
+## Who is this for?
 
 Online course creators, coaches, and digital product businesses who want a clear, AI-generated roadmap for growing their client base.
 
-##How does it work?
+## How does it work?
 
 User Authentication: Users sign up or log in using Supabase Auth.
 
@@ -20,33 +21,23 @@ Results Display: The generated blueprint is displayed in a readable, actionable 
 
 Export & Email: Users can enter their email and consent to receive a PDF export of their blueprint. All exports are handled securely, and user consent is required for data storage and email delivery.
 
-##Key Features:
+## Key Features:
 
-Secure authentication and data storage (Supabase)
+- Secure authentication and data storage (Supabase)
+- AI-powered, structured blueprint generation (OpenAI GPT-4)
+- GDPR-compliant consent and data handling
+- PDF export and email delivery of results
+- Modular, scalable architecture for future features (e.g., team collaboration, additional export formats)
 
-AI-powered, structured blueprint generation (OpenAI GPT-4)
+## What's not included (yet):
 
-GDPR-compliant consent and data handling
+- Invoicing, billing, or payment features
+- Integrations with third-party CRMs
+- Mobile app version
+- Advanced analytics or AI automation beyond the core blueprint generation
 
-PDF export and email delivery of results
-
-Modular, scalable architecture for future features (e.g., team collaboration, additional export formats)
-
-##What’s not included (yet):
-
-Invoicing, billing, or payment features
-
-Integrations with third-party CRMs
-
-Mobile app version
-
-Advanced analytics or AI automation beyond the core blueprint generation
-
-##Why does this exist?
+## Why does this exist?
 Most client growth tools are either too generic or too complex. This app provides a focused, AI-driven workflow that delivers immediate, actionable value-helping users clarify their messaging and client strategy in minutes, not weeks.
-
-
-
 
 ## How can I edit this code?
 
