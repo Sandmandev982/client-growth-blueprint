@@ -11,6 +11,7 @@ export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
     
     // Parse the markdown text to extract structured data
     const output: GeneratedOutput = {
+      preliminaryTransformation: extractSection(markdownText, "Preliminary Transformation Statement"),
       idealClientProfile: {
         demographics: {
           age: extractSection(markdownText, "Demographics", "Age") || 
@@ -48,7 +49,9 @@ export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
           motivations: extractList(markdownText, "Psychographics", "Motivations") || 
                       extractList(markdownText, "Ideal Client Avatar", "Motivations") || 
                       ["Not specified"],
-        }
+        },
+        painPoints: extractListFromSection(markdownText, "Pain Points", 3) || ["Not specified"],
+        desiredOutcomes: extractListFromSection(markdownText, "Desired Outcomes", 3) || ["Not specified"]
       },
       jobsToBeDone: {
         struggles: extractListFromSection(markdownText, "Primary Struggles", 3) || 
@@ -61,13 +64,25 @@ export function parseGeneratedBlueprint(markdownText: string): GeneratedOutput {
                         extractSection(markdownText, "Strategic Marketing Angle") ||
                         "Not specified"
       },
-      millionDollarMessages: [] // This field is not used in the current implementation
+      transformationPath: {
+        zeroState: extractSection(markdownText, "Transformation Path", "Zero State") || "Not specified",
+        heroState: extractSection(markdownText, "Transformation Path", "Hero State") || "Not specified",
+        steps: extractListFromSection(markdownText, "Steps Between States", 5) || ["Not specified"]
+      },
+      immediateActionPlan: {
+        thisWeek: extractListFromSection(markdownText, "This Week", 3) || ["Not specified"],
+        thirtyDayPlan: extractListFromSection(markdownText, "30-Day Plan", 3) || ["Not specified"]
+      },
+      sampleEngagementPost: extractSection(markdownText, "Sample Engagement Post") || "Not specified",
+      whyThisWorks: {
+        clarity: extractSection(markdownText, "Why This Works", "Clarity") || "Not specified",
+        emotionalResonance: extractSection(markdownText, "Why This Works", "Emotional Resonance") || "Not specified",
+        actionability: extractSection(markdownText, "Why This Works", "Actionability") || "Not specified",
+        consistency: extractSection(markdownText, "Why This Works", "Consistency") || "Not specified"
+      },
+      rawText: markdownText
     };
     
-    console.log('Parsed output structure:', {
-      hasIdealClientProfile: !!output.idealClientProfile,
-      hasJobsToBeDone: !!output.jobsToBeDone
-    });
     return output;
   } catch (error) {
     console.error('Error parsing generated blueprint:', error);
