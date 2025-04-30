@@ -1,6 +1,6 @@
 
 import { BlueprintData, ClientProfile, JobsToBeDone, TransformationPath } from '@/types/ClientProfile';
-import { extractSection, extractList } from './extractors';
+import { extractSection, extractList, extractListFromSection } from './extractors';
 
 export function parseGPTResponse(markdownResponse: string): BlueprintData {
   try {
@@ -49,18 +49,18 @@ export function parseGPTResponse(markdownResponse: string): BlueprintData {
                      ["Not specified"],
       },
       painPoints: extractList(markdownResponse, "Ideal Client Avatar", "Pain Points") || 
-                  extractListFromSection(markdownResponse, "Pain Points") || 
+                  extractList(markdownResponse, "Pain Points", "Pain Points") || 
                   ["Not specified"],
       desiredOutcomes: extractList(markdownResponse, "Ideal Client Avatar", "Desired Outcomes") || 
-                       extractListFromSection(markdownResponse, "Desired Outcomes") || 
+                       extractList(markdownResponse, "Desired Outcomes", "Desired Outcomes") || 
                        ["Not specified"]
     };
     
     // Parse Jobs To Be Done
     const jobsToBeDone: JobsToBeDone = {
-      struggles: extractListFromSection(markdownResponse, "Primary Struggles") || 
+      struggles: extractList(markdownResponse, "Primary Struggles", "Struggles") || 
                  ["Not specified"],
-      jobs: extractListFromSection(markdownResponse, "Jobs To Be Done") || 
+      jobs: extractList(markdownResponse, "Jobs To Be Done", "Jobs") || 
             ["Not specified"],
       marketingAngle: extractSection(markdownResponse, "Transformation Path") || 
                       "Not specified"
@@ -72,15 +72,15 @@ export function parseGPTResponse(markdownResponse: string): BlueprintData {
                  "Not specified",
       heroState: extractSection(markdownResponse, "Transformation Path", "Hero State") || 
                  "Not specified",
-      steps: extractListFromSection(markdownResponse, "Steps Between States") || 
+      steps: extractList(markdownResponse, "Steps Between States", "Steps") || 
              ["Not specified"]
     };
     
     // Parse Immediate Action Plan
     const immediateActionPlan = {
-      thisWeek: extractListFromSection(markdownResponse, "This Week") || 
+      thisWeek: extractList(markdownResponse, "This Week", "Tasks") || 
                 ["Not specified"],
-      thirtyDayPlan: extractListFromSection(markdownResponse, "30-Day Plan") || 
+      thirtyDayPlan: extractList(markdownResponse, "30-Day Plan", "Tasks") || 
                      ["Not specified"]
     };
     

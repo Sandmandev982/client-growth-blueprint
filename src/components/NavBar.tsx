@@ -17,7 +17,7 @@ const NavBar = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center mb-4 md:mb-0">
           <BarChart3 className="text-lcm-white h-6 w-6 mr-2" />
-          <h1 className="text-lcm-white text-xl font-bold">Client Growth Blueprint</h1>
+          <h1 className="text-lcm-white text-xl font-bold">VBF Process</h1>
         </div>
         
         <div className="flex space-x-2">
