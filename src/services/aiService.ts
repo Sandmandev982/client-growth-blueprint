@@ -12,15 +12,20 @@ export const generateClientProfile = async (data: FormData): Promise<{
   blueprintText: string;
 }> => {
   try {
-    console.log("Generating client profile with data:", data);
+    console.log("=== GENERATING CLIENT PROFILE ===");
+    console.log("Input data:", data);
     
     // Check if API key exists and log its status (not the actual key)
     if (!OPENAI_API_KEY) {
-      console.error("OpenAI API key not found");
-      toast.error("OpenAI API key is missing. Please check your Supabase secrets or refresh the page.");
+      const errorMsg = "OpenAI API key is missing. Please check your Supabase secrets or refresh the page.";
+      console.error("CRITICAL ERROR:", errorMsg);
+      toast.error(errorMsg);
       throw new Error("OpenAI API key is not configured properly. Please check the Supabase secrets.");
     } else {
-      console.log("OpenAI API key is present (length):", OPENAI_API_KEY.length);
+      console.log("API key validation:");
+      console.log("- API key present: YES");
+      console.log("- API key length:", OPENAI_API_KEY.length);
+      console.log("- First few chars:", OPENAI_API_KEY.substring(0, 3) + "...");
     }
     
     // Transform form data to the format expected by the prompt engine
@@ -34,23 +39,29 @@ export const generateClientProfile = async (data: FormData): Promise<{
     };
     
     // Generate the client blueprint text using the prompt engine
-    console.log("Calling generateClientBlueprint with:", promptData);
+    console.log("Calling generateClientBlueprint with input data");
     const blueprintText = await generateClientBlueprint(promptData);
-    console.log("Generated blueprint text length:", blueprintText.length);
+    console.log("Blueprint text generated successfully!");
+    console.log("- Text length:", blueprintText.length);
+    console.log("- Text preview:", blueprintText.substring(0, 100) + "...");
     
     // Parse the blueprint text into structured data
+    console.log("Parsing blueprint text into structured data...");
     const structuredOutput = await processClientBlueprint(blueprintText);
-    console.log("Parsed structured output completed");
+    console.log("Blueprint parsing completed successfully");
     
     return {
       output: structuredOutput,
       blueprintText
     };
   } catch (error) {
-    console.error("Error generating client profile:", error);
-    
-    // More specific error handling
+    console.error("=== ERROR GENERATING CLIENT PROFILE ===");
     if (error instanceof Error) {
+      console.error("Error type: ", error.constructor.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+      
+      // More specific error handling
       if (error.message.includes('API key')) {
         toast.error(`API key issue: ${error.message}`);
       } else if (error.message.includes('429')) {
@@ -61,6 +72,7 @@ export const generateClientProfile = async (data: FormData): Promise<{
         toast.error(`Error: ${error.message}. Please try again.`);
       }
     } else {
+      console.error("Unknown error object:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
     
