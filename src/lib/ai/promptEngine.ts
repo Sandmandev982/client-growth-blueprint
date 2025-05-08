@@ -1,6 +1,5 @@
 
 import { clientProfilePrompt } from '../prompts/clientProfile';
-import { generateAIContent } from './openai';
 import { parseGPTResponse } from './parseGPTResponse';
 import { BlueprintData } from '@/types/ClientProfile';
 
@@ -19,20 +18,26 @@ export async function generateClientBlueprint(formData: {
     console.log('=== GENERATING CLIENT BLUEPRINT ===');
     console.log('Form data received:', formData);
     
-    // Generate the prompt using the template and user's input
-    const prompt = clientProfilePrompt(formData);
-    console.log('Prompt template applied successfully');
-    console.log('Generated prompt length:', prompt.length);
+    console.log('Calling Supabase Edge Function...');
+    const response = await fetch('https://lrruxjftdzvwlbjfuiew.supabase.co/functions/v1/generate-blueprint', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
     
-    // Call OpenAI API with the generated prompt
-    console.log('Calling OpenAI API...');
-    const generatedText = await generateAIContent(
-      "You are a strategic messaging expert generating a comprehensive client growth blueprint.",
-      prompt,
-      { temperature: 0.7, maxTokens: 1500 }
-    );
+    if (!response.ok) {
+      console.error('Edge Function returned error:', response.status);
+      const errorData = await response.text();
+      console.error('Error details:', errorData);
+      throw new Error(`Edge Function error: ${response.status} - ${errorData || 'Unknown error'}`);
+    }
     
-    console.log('OpenAI API call successful!');
+    const data = await response.json();
+    const generatedText = data.generatedText;
+    
+    console.log('Edge Function call successful!');
     console.log('Response length:', generatedText.length);
     console.log('Response preview:', generatedText.substring(0, 100) + '...');
     
