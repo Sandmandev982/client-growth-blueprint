@@ -23,7 +23,7 @@ export async function generateClientProfile(formData: FormData): Promise<{
       tone: formData.tone
     };
     
-    // Generate the blueprint text using the Supabase Edge Function
+    // Generate the blueprint text using the Edge Function
     console.log('Calling generateClientBlueprint...');
     const blueprintText = await generateClientBlueprint(promptData);
     console.log('Blueprint text generated, length:', blueprintText.length);
